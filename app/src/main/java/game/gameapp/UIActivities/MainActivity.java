@@ -26,7 +26,6 @@ import game.gameapp.Utils.PreferenceUtil;
 import game.gameapp.Utils.RealmHelper;
 
 public class MainActivity extends BaseActivity implements GameInterface {
-    private AnimationDrawable anim;
     private double endTime;
     private EnemyViews enemyViewsFirst;
     private EnemyViews enemyViewsFourth;
@@ -94,9 +93,6 @@ public class MainActivity extends BaseActivity implements GameInterface {
         configViews();
         this.topAndBottomBorderLength = getResources().getDimension(R.dimen.top_margin_of_game_view);
         this.glyuk = getResources().getDimension(R.dimen.glyuk);
-        this.anim = (AnimationDrawable) ((LinearLayout) findViewById(R.id.activity_main)).getBackground();
-        this.anim.setEnterFadeDuration(10000);
-        this.anim.setExitFadeDuration(6000);
         this.uName = (String) PreferenceUtil.readPreference(this, CONSTATNTS.USER_NAME, "");
         this.id = (Integer) PreferenceUtil.readPreference(this, CONSTATNTS.ID, Integer.valueOf(0));
         this.id = Integer.valueOf(this.id.intValue() + 1);
@@ -104,17 +100,11 @@ public class MainActivity extends BaseActivity implements GameInterface {
 
     protected void onResume() {
         super.onResume();
-        if (this.anim != null && !this.anim.isRunning()) {
-            this.anim.start();
-        }
         setRandomMarginsToEnemyViews();
     }
 
     protected void onPause() {
         super.onPause();
-        if (this.anim != null && this.anim.isRunning()) {
-            this.anim.stop();
-        }
     }
 
     private void configViews() {
@@ -138,9 +128,9 @@ public class MainActivity extends BaseActivity implements GameInterface {
         this.screenSizes_x = ((Integer) PreferenceUtil.readPreference(this, CONSTATNTS.POINTS_X, Integer.valueOf(0))).intValue();
         this.screenSizes_y = ((Integer) PreferenceUtil.readPreference(this, CONSTATNTS.POINTS_Y, Integer.valueOf(0))).intValue();
         int firstSize = this.screenSizes_x / 10;
-        int secondSize = this.screenSizes_x / 9;
-        int thirdSize = this.screenSizes_x / 11;
-        int fourthSize = this.screenSizes_x / 8;
+        int secondSize = this.screenSizes_x / 7;
+        int thirdSize = this.screenSizes_x / 9;
+        int fourthSize = this.screenSizes_x / 6;
         this.enemyViewsFirst.getLayoutParams().width = firstSize;
         this.enemyViewsFirst.getLayoutParams().height = firstSize;
         this.enemyViewsSecond.getLayoutParams().width = secondSize;
@@ -231,7 +221,6 @@ public class MainActivity extends BaseActivity implements GameInterface {
         this.enemyViewsThird = null;
         this.enemyViewsFourth = null;
         this.gamer = null;
-        this.anim = null;
         this.timerTextView = null;
         System.gc();
     }
