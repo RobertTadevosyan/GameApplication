@@ -5,12 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/game_over_page_background"
-        android:src="@drawable/backgroun_image"
-        android:scaleType="centerCrop" />
+<include layout="@layout/background_layout"/>
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"

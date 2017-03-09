@@ -80,7 +80,6 @@ public class StartAcivity extends AppCompatActivity {
         adb.setTitle((CharSequence) "Gamer checking .");
         final String uName = (String) PreferenceUtil.readPreference(this, CONSTATNTS.USER_NAME, "");
         adb.setMessage("Are you " + uName + " ?");
-        adb.setIcon((int) R.drawable.user);
         adb.setCancelable(false);
         adb.setPositiveButton((CharSequence) "Yes", new OnClickListener() {
             @Override

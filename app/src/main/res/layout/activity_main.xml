@@ -4,7 +4,7 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/animation_list_appropriate"
+    android:background="@drawable/game_background"
     android:clickable="false"
     android:orientation="vertical">
 
@@ -34,7 +34,6 @@
             android:layout_marginBottom="10dp"
             android:layout_marginRight="@dimen/secondEnemiesMargin"
             android:background="@android:color/transparent"
-            android:scaleType="centerCrop"
             android:src="@drawable/thorn" />
 
         <game.gameapp.Utils.EnemyViews
