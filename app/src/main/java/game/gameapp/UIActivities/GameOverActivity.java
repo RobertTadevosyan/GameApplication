@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -38,10 +39,10 @@ import io.realm.RealmObject;
 
 
 public class GameOverActivity extends AppCompatActivity implements CommonInterface, OnClickListener {
-    private AnimationDrawable anim;
+//    private AnimationDrawable anim;
     private float check;
     private CommonAdapter commonAdapter;
-    private LinearLayout fb_share_button;
+    private ImageView fb_share_button;
     private List<Model> list;
     private ListView listView;
     private int positionOfDeletingItem;
@@ -49,6 +50,7 @@ public class GameOverActivity extends AppCompatActivity implements CommonInterfa
     private Button removeAllButton;
     private EditText userName;
     private AdView mAdView;
+    private AdView secondAdView;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,20 +58,24 @@ public class GameOverActivity extends AppCompatActivity implements CommonInterfa
 //        AppEventsLogger.activateApp(this);
         setContentView((int) R.layout.activity_game_over);
         mAdView = (AdView) findViewById(R.id.adView);
+        secondAdView = (AdView) findViewById(R.id.secondAdView);
         AdRequest adRequest = new AdRequest.Builder().build();
+        AdRequest secondAdRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
+        secondAdView.loadAd(secondAdRequest);
         this.userName = (EditText) findViewById(R.id.gamerName);
         this.userName.setText((String) PreferenceUtil.readPreference(this, CONSTATNTS.USER_NAME, ""));
         findViewById(R.id.new_game_button).setEnabled(false);
-        this.fb_share_button = (LinearLayout) findViewById(R.id.fb_share_button);
+        this.fb_share_button = (ImageView) findViewById(R.id.fb_share_button);
         this.fb_share_button.setVisibility(View.VISIBLE);
         this.fb_share_button.setOnClickListener(this);
         this.progressBar = (RelativeLayout) findViewById(R.id.progressLayout);
+        progressBar.setVisibility(View.GONE);
         hideProgressBar();
         this.removeAllButton = (Button) findViewById(R.id.clear_all_list);
-        this.anim = (AnimationDrawable) ((RelativeLayout) findViewById(R.id.activity_game_over)).getBackground();
-        this.anim.setEnterFadeDuration(10000);
-        this.anim.setExitFadeDuration(10000);
+//        this.anim = (AnimationDrawable) ((RelativeLayout) findViewById(R.id.activity_game_over)).getBackground();
+//        this.anim.setEnterFadeDuration(10000);
+//        this.anim.setExitFadeDuration(10000);
         configureViews();
         listViewsConfigurations();
     }
@@ -105,26 +111,26 @@ public class GameOverActivity extends AppCompatActivity implements CommonInterfa
         this.commonAdapter.notifyDataSetChanged();
         if (this.list.isEmpty()) {
             this.removeAllButton.setEnabled(false);
-//            this.removeAllButton.setTextColor(-7829368);
+            this.removeAllButton.setTextColor(ContextCompat.getColor(this, R.color.loadingBackground));
             return;
         }
         this.removeAllButton.setEnabled(true);
-        this.removeAllButton.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        this.removeAllButton.setTextColor(ContextCompat.getColor(this, R.color.game_over_page_background));
     }
 
-    protected void onResume() {
-        super.onResume();
-        if (this.anim != null && !this.anim.isRunning()) {
-            this.anim.start();
-        }
-    }
-
-    protected void onPause() {
-        super.onPause();
-        if (this.anim != null && this.anim.isRunning()) {
-            this.anim.stop();
-        }
-    }
+//    protected void onResume() {
+//        super.onResume();
+//        if (this.anim != null && !this.anim.isRunning()) {
+//            this.anim.start();
+//        }
+//    }
+//
+//    protected void onPause() {
+//        super.onPause();
+//        if (this.anim != null && this.anim.isRunning()) {
+//            this.anim.stop();
+//        }
+//    }
 
     private void configureViews() {
     }
@@ -209,7 +215,7 @@ public class GameOverActivity extends AppCompatActivity implements CommonInterfa
         this.list = null;
         this.listView = null;
         this.commonAdapter = null;
-        this.anim = null;
+//        this.anim = null;
         this.removeAllButton = null;
         this.progressBar = null;
         System.gc();

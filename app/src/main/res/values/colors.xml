@@ -4,4 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="loadingBackground">#70767072</color>
+    <color name="list_item_bottom_line_color">#a8adb1</color>
+    <color name="game_over_page_background">#18223d</color>
+    <color name="play_again_background">#475b65</color>
 </resources>

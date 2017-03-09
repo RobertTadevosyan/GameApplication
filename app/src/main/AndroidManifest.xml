@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".UIActivities.StartAcivity"
+        <activity android:name=".UIActivities.SplashScreenActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,7 +22,7 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".UIActivities.MainActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".UIActivities.SplashScreenActivity"
+        <activity android:name=".UIActivities.StartAcivity"
             android:screenOrientation="portrait"/>
     </application>
 

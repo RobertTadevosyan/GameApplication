@@ -26,13 +26,17 @@ public class StartAcivity extends AppCompatActivity {
     private Point point;
     private EditText userNameEditText;
     private AdView mAdView;
+    private AdView secondAdView;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView((int) R.layout.activity_start_acivity);
         mAdView = (AdView) findViewById(R.id.adView);
+        secondAdView = (AdView) findViewById(R.id.secondAd);
         AdRequest adRequest = new AdRequest.Builder().build();
+        AdRequest secondAdRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
+        secondAdView.loadAd(secondAdRequest);
         this.userNameEditText = (EditText) findViewById(R.id.userNameEditText);
         checkingUserName();
         gettingScreenSizes();

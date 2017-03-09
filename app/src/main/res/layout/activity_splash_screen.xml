@@ -12,6 +12,5 @@
         android:id="@+id/splash"
         android:layout_width="@dimen/ball_size_on_splash_screen"
         android:layout_height="@dimen/ball_size_on_splash_screen"
-        android:background="@drawable/ballon"
-        android:visibility="gone" />
+        android:background="@drawable/circle_balloon" />
 </LinearLayout>

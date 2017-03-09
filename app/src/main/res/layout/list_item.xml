@@ -2,24 +2,32 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/fourth_gradient"
+    android:background="@android:color/transparent"
     android:orientation="vertical"
     android:paddingLeft="10dp"
     android:paddingRight="5dp">
+
+    <ImageView
+        android:id="@+id/icon_image_view"
+        android:layout_width="@dimen/delete_icon_size"
+        android:layout_height="@dimen/delete_icon_size"
+        android:layout_centerVertical="true"
+        android:src="@drawable/silver_medal" />
 
     <TextView
         android:id="@+id/userName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@+id/deleteItem"
+        android:layout_toRightOf="@+id/icon_image_view"
         android:maxLines="1"
         android:paddingBottom="5dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingTop="2dp"
-        android:text="asdasdsadd"
+        android:text="Name - "
         android:textColor="@android:color/white"
-        android:textSize="@dimen/alert_text_size" />
+        android:textSize="@dimen/list_item_text_size" />
 
     <TextView
         android:id="@+id/userScore"
@@ -27,12 +35,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/userName"
         android:layout_toLeftOf="@+id/deleteItem"
+        android:layout_toRightOf="@+id/icon_image_view"
         android:maxLines="1"
         android:paddingBottom="2dp"
-        android:paddingLeft="20dp"
-        android:text="asdasdsadd"
+        android:paddingLeft="10dp"
+        android:text="Score - "
         android:textColor="@android:color/white"
-        android:textSize="@dimen/alert_text_size" />
+        android:textSize="@dimen/list_item_text_size" />
 
     <ImageView
         android:id="@+id/deleteItem"
@@ -41,5 +50,13 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:background="@android:color/transparent"
-        android:src="@drawable/delete_icon" />
+        android:padding="5dp"
+        android:src="@drawable/delete_icon"
+        android:tint="@android:color/white" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/userScore"
+        android:background="@color/list_item_bottom_line_color" />
 </RelativeLayout>

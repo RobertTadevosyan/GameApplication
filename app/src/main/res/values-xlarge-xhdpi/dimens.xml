@@ -5,7 +5,7 @@
     <dimen name="ball_size_on_splash_screen">500dp</dimen>
     <dimen name="borderLength">30dp</dimen>
     <dimen name="check">1dp</dimen>
-    <dimen name="delete_icon_size">50dp</dimen>
+    <dimen name="delete_icon_size">60dp</dimen>
     <dimen name="enemiesMargin">150dp</dimen>
     <dimen name="enemies_margin_fourth">150dp</dimen>
     <dimen name="enemies_margin_third">140dp</dimen>
@@ -17,4 +17,6 @@
     <dimen name="new_game_button_width">600dp</dimen>
     <dimen name="secondEnemiesMargin">120dp</dimen>
     <dimen name="top_margin_of_game_view">30dp</dimen>
+    <dimen name="list_item_text_size">18sp</dimen>
+    <dimen name="normal_text_size">26sp</dimen>
 </resources>

@@ -14,32 +14,6 @@ import game.gameapp.R;
 public class SplashScreenActivity extends AppCompatActivity {
     Thread splashTread;
 
-    /* renamed from: square.com.avoidsquare.UIActivities.SplashScreenActivity.1 */
-    class C02801 extends Thread {
-        C02801() {
-        }
-
-        public void run() {
-            int waited = 0;
-            while (waited < 3500) {
-                try {
-                    C02801.sleep(100);
-                    waited += 100;
-                } catch (InterruptedException e) {
-                    SplashScreenActivity.this.finish();
-                    return;
-                } catch (Throwable th) {
-                    SplashScreenActivity.this.finish();
-                }
-            }
-            Intent intent = new Intent(SplashScreenActivity.this, StartAcivity.class);
-//            intent.setFlags(NativeProtocol.MESSAGE_GET_ACCESS_TOKEN_REQUEST);
-            SplashScreenActivity.this.startActivity(intent);
-            SplashScreenActivity.this.finish();
-            SplashScreenActivity.this.finish();
-        }
-    }
-
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
         getWindow().setFormat(1);
@@ -47,7 +21,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView((int) R.layout.activity_splash_screen);
+        setContentView(R.layout.activity_splash_screen);
         StartAnimations();
     }
 
@@ -62,7 +36,28 @@ public class SplashScreenActivity extends AppCompatActivity {
         ImageView iv = (ImageView) findViewById(R.id.splash);
         iv.clearAnimation();
         iv.startAnimation(anim);
-        this.splashTread = new C02801();
+        this.splashTread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int waited = 0;
+                while (waited < 3500) {
+                    try {
+                        Thread.sleep(100);
+                        waited += 100;
+                    } catch (InterruptedException e) {
+                        SplashScreenActivity.this.finish();
+                        return;
+                    } catch (Throwable th) {
+                        SplashScreenActivity.this.finish();
+                    }
+                }
+                Intent intent = new Intent(SplashScreenActivity.this, StartAcivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                SplashScreenActivity.this.startActivity(intent);
+                SplashScreenActivity.this.finish();
+                SplashScreenActivity.this.finish();
+            }
+        });
         this.splashTread.start();
     }
 }
