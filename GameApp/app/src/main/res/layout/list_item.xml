@@ -16,7 +16,7 @@
         android:paddingBottom="5dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:paddingTop="5dp"
+        android:paddingTop="2dp"
         android:text="asdasdsadd"
         android:textColor="@android:color/white"
         android:textSize="@dimen/alert_text_size" />
@@ -28,7 +28,7 @@
         android:layout_below="@+id/userName"
         android:layout_toLeftOf="@+id/deleteItem"
         android:maxLines="1"
-        android:paddingBottom="5dp"
+        android:paddingBottom="2dp"
         android:paddingLeft="20dp"
         android:text="asdasdsadd"
         android:textColor="@android:color/white"

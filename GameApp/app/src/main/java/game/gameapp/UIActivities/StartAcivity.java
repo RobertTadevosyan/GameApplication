@@ -40,7 +40,7 @@ public class StartAcivity extends AppCompatActivity {
 
     private void checkingUserName() {
         if (((String) PreferenceUtil.readPreference(this, CONSTATNTS.USER_NAME, "")).isEmpty() || ((String) PreferenceUtil.readPreference(this, CONSTATNTS.USER_NAME, "")).equals(CONSTATNTS.UNNAMED)) {
-            this.userNameEditText.setVisibility(View.GONE);
+            this.userNameEditText.setVisibility(View.VISIBLE);
             PreferenceUtil.saveInSharedPreference(this, CONSTATNTS.ID, Integer.valueOf(1));
             return;
         }

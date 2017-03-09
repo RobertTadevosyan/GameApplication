@@ -4,11 +4,11 @@
     <dimen name="ball_size_on_splash_screen">200dp</dimen>
     <dimen name="borderLength">15dp</dimen>
     <dimen name="check">1dp</dimen>
-    <dimen name="delete_icon_size">35dp</dimen>
+    <dimen name="delete_icon_size">25dp</dimen>
     <dimen name="enemiesMargin">75dp</dimen>
     <dimen name="enemies_margin_fourth">80dp</dimen>
     <dimen name="enemies_margin_third">90dp</dimen>
-    <dimen name="facebook_button_height">10dp</dimen>
+    <dimen name="facebook_button_height">30dp</dimen>
     <dimen name="facebook_icon_size">120dp</dimen>
     <dimen name="glyuk">10dp</dimen>
     <dimen name="left_and_rigth_border_width">600dp</dimen>
