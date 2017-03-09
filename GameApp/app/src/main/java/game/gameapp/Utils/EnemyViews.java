@@ -31,7 +31,12 @@ public class EnemyViews extends ImageView {
     private int screenWidth;
     private Stopwatch stopwatch;
     private Timer timer;
-    private Random random = new Random();
+    private static final int ACCELERATION = 1;
+    private static final int LIMIT_OF_SPEED = 30;
+    private static final int STARTS_FROM = 0;
+    private static final int MIN_MARGIN = 10;
+    private static final int INTERVAL_OF_MARGINS = 150;
+
 
     /* renamed from: square.com.avoidsquare.Utils.EnemyViews.1 */
     class C02831 implements AnimatorUpdateListener {
@@ -43,10 +48,15 @@ public class EnemyViews extends ImageView {
         }
     }
 
-    private void setMargins() {
+    public void setMargins() {
         if (getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
+            Random random = new Random();
             ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) getLayoutParams();
-            params.setMargins(random.nextInt(100), random.nextInt(100), random.nextInt(100), random.nextInt(100));
+            params.setMargins(
+                    random.nextInt(INTERVAL_OF_MARGINS) + 2 * MIN_MARGIN,
+                    random.nextInt(INTERVAL_OF_MARGINS) + 4 * MIN_MARGIN,
+                    random.nextInt(INTERVAL_OF_MARGINS) + 3 * MIN_MARGIN,
+                    random.nextInt(INTERVAL_OF_MARGINS) + MIN_MARGIN);
             requestLayout();
         }
     }
@@ -82,7 +92,7 @@ public class EnemyViews extends ImageView {
     public void move() {
         this.stopwatch = new Stopwatch();
         this.animator = ValueAnimator.ofFloat(new float[]{0.0f});
-        this.animator.setRepeatCount(-1);
+        this.animator.setRepeatCount(ValueAnimator.INFINITE);
         this.animator.setInterpolator(new LinearInterpolator());
         this.animator.setDuration(1);
         this.animator.addUpdateListener(new C02831());
@@ -90,16 +100,15 @@ public class EnemyViews extends ImageView {
         this.timer.schedule(new TimerTask() {
             @Override
             public void run() {
-
-                if (EnemyViews.this.moveY < 0 && EnemyViews.this.moveY > -30) {
-                    EnemyViews.this.moveY = EnemyViews.this.moveY - 1;
-                } else if (EnemyViews.this.moveY > 0 && EnemyViews.this.moveY < 30) {
-                    EnemyViews.this.moveY = EnemyViews.this.moveY + 1;
+                if (EnemyViews.this.moveY < STARTS_FROM && EnemyViews.this.moveY > -LIMIT_OF_SPEED) {
+                    EnemyViews.this.moveY = EnemyViews.this.moveY - ACCELERATION;
+                } else if (EnemyViews.this.moveY > STARTS_FROM && EnemyViews.this.moveY < LIMIT_OF_SPEED) {
+                    EnemyViews.this.moveY = EnemyViews.this.moveY + ACCELERATION;
                 }
-                if (EnemyViews.this.moveX < 0 && EnemyViews.this.moveX > -30) {
-                    EnemyViews.this.moveX = EnemyViews.this.moveX - 1;
-                } else if (EnemyViews.this.moveX > 0 && EnemyViews.this.moveX < 30) {
-                    EnemyViews.this.moveX = EnemyViews.this.moveX + 1;
+                if (EnemyViews.this.moveX < STARTS_FROM && EnemyViews.this.moveX > -LIMIT_OF_SPEED) {
+                    EnemyViews.this.moveX = EnemyViews.this.moveX - ACCELERATION;
+                } else if (EnemyViews.this.moveX > STARTS_FROM && EnemyViews.this.moveX < LIMIT_OF_SPEED) {
+                    EnemyViews.this.moveX = EnemyViews.this.moveX + ACCELERATION;
                 }
             }
         }, 0, 1700);
@@ -121,7 +130,7 @@ public class EnemyViews extends ImageView {
         this.moveY = 2;
         this.screenWidth = point.x;
         this.screenHeight = point.y / 2;
-        setMargins();
+//        setMargins();
     }
 
     private void animationUpdateActionPerformed() {

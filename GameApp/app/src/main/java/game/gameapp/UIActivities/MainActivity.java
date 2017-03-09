@@ -107,6 +107,7 @@ public class MainActivity extends BaseActivity implements GameInterface {
         if (this.anim != null && !this.anim.isRunning()) {
             this.anim.start();
         }
+        setRandomMarginsToEnemyViews();
     }
 
     protected void onPause() {
@@ -157,8 +158,15 @@ public class MainActivity extends BaseActivity implements GameInterface {
     @RequiresApi(api = 19)
     public void gameOverBecauseOfEnemies(float enemX, float enemyY, int enemyWidth, int enemyHeight) {
         if (this.gamer.isBelongToGamer(this.glyuk + enemX, this.glyuk + enemyY) || this.gamer.isBelongToGamer(this.glyuk + enemX, (((float) enemyHeight) + enemyY) - this.glyuk) || this.gamer.isBelongToGamer((enemX - this.glyuk) + ((float) enemyWidth), this.glyuk + enemyY) || this.gamer.isBelongToGamer((enemX - this.glyuk) + ((float) enemyWidth), (enemyY - this.glyuk) + ((float) enemyHeight))) {
-            stop();
+//            stop();
         }
+    }
+
+    private void setRandomMarginsToEnemyViews(){
+        this.enemyViewsFirst.setMargins();
+        this.enemyViewsFirst.setMargins();
+        this.enemyViewsFirst.setMargins();
+        this.enemyViewsFirst.setMargins();
     }
 
     public void startGame() {

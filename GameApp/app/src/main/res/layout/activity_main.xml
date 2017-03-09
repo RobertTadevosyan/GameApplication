@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -90,18 +91,6 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@android:color/black" />
-
-        <!--<View-->
-            <!--android:layout_width="1dp"-->
-            <!--android:layout_height="-1"-->
-            <!--android:layout_alignParentLeft="true"-->
-            <!--android:background="0x106000c" />-->
-
-        <!--<View-->
-            <!--android:layout_width="1dp"-->
-            <!--android:layout_height="-1"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:background="0x106000c" />-->
 
         <ImageView
             android:id="@+id/gamerJoystick"

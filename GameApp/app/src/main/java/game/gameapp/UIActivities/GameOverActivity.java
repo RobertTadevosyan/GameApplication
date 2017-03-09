@@ -211,6 +211,7 @@ public class GameOverActivity extends AppCompatActivity implements CommonInterfa
         this.commonAdapter = null;
         this.anim = null;
         this.removeAllButton = null;
+        this.progressBar = null;
         System.gc();
     }
 
