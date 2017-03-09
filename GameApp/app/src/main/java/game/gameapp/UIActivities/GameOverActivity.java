@@ -18,6 +18,9 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -45,12 +48,16 @@ public class GameOverActivity extends AppCompatActivity implements CommonInterfa
     private RelativeLayout progressBar;
     private Button removeAllButton;
     private EditText userName;
+    private AdView mAdView;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        FacebookSdk.sdkInitialize(getApplicationContext());
 //        AppEventsLogger.activateApp(this);
         setContentView((int) R.layout.activity_game_over);
+        mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
         this.userName = (EditText) findViewById(R.id.gamerName);
         this.userName.setText((String) PreferenceUtil.readPreference(this, CONSTATNTS.USER_NAME, ""));
         findViewById(R.id.new_game_button).setEnabled(false);

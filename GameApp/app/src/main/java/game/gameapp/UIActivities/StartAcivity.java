@@ -15,6 +15,9 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import game.gameapp.R;
 import game.gameapp.Utils.CONSTATNTS;
 import game.gameapp.Utils.PreferenceUtil;
@@ -22,10 +25,14 @@ import game.gameapp.Utils.PreferenceUtil;
 public class StartAcivity extends AppCompatActivity {
     private Point point;
     private EditText userNameEditText;
+    private AdView mAdView;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView((int) R.layout.activity_start_acivity);
+        mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
         this.userNameEditText = (EditText) findViewById(R.id.userNameEditText);
         checkingUserName();
         gettingScreenSizes();
@@ -33,7 +40,7 @@ public class StartAcivity extends AppCompatActivity {
 
     private void checkingUserName() {
         if (((String) PreferenceUtil.readPreference(this, CONSTATNTS.USER_NAME, "")).isEmpty() || ((String) PreferenceUtil.readPreference(this, CONSTATNTS.USER_NAME, "")).equals(CONSTATNTS.UNNAMED)) {
-            this.userNameEditText.setVisibility(0);
+            this.userNameEditText.setVisibility(View.GONE);
             PreferenceUtil.saveInSharedPreference(this, CONSTATNTS.ID, Integer.valueOf(1));
             return;
         }
