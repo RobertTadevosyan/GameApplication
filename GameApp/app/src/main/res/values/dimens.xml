@@ -1,0 +1,20 @@
+<resources>
+    <dimen name="alert_text_size">20sp</dimen>
+    <dimen name="alert_title_text_size">23dp</dimen>
+    <dimen name="ball_size_on_splash_screen">200dp</dimen>
+    <dimen name="borderLength">15dp</dimen>
+    <dimen name="check">1dp</dimen>
+    <dimen name="delete_icon_size">35dp</dimen>
+    <dimen name="enemiesMargin">75dp</dimen>
+    <dimen name="enemies_margin_fourth">80dp</dimen>
+    <dimen name="enemies_margin_third">90dp</dimen>
+    <dimen name="facebook_button_height">10dp</dimen>
+    <dimen name="facebook_icon_size">120dp</dimen>
+    <dimen name="glyuk">10dp</dimen>
+    <dimen name="left_and_rigth_border_width">600dp</dimen>
+    <dimen name="list_top_margin_in_gameover_activity">15dp</dimen>
+    <dimen name="new_game_button_height">40dp</dimen>
+    <dimen name="new_game_button_width">300dp</dimen>
+    <dimen name="secondEnemiesMargin">70dp</dimen>
+    <dimen name="top_margin_of_game_view">15dp</dimen>
+</resources>

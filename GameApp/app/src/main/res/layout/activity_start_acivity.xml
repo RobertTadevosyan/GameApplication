@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_start_acivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/sixth_gradient">
+
+    <Button
+        android:id="@+id/playButton"
+        android:layout_width="@dimen/new_game_button_width"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/fourth_gradient"
+        android:onClick="playGameClick"
+        android:text="Play"
+        android:textSize="@dimen/alert_text_size" />
+
+    <EditText
+        android:id="@+id/userNameEditText"
+        android:layout_width="@dimen/new_game_button_width"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/playButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/edit_text_background"
+        android:hint="What is your name ?"
+        android:padding="5dp"
+        android:textColor="@color/colorAccent"
+        android:textColorHint="@color/colorPrimaryDark"
+        android:textSize="@dimen/alert_text_size" />
+</RelativeLayout>
