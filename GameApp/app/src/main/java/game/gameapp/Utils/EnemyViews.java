@@ -7,9 +7,12 @@ import android.graphics.Point;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.Display;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
+
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -28,6 +31,7 @@ public class EnemyViews extends ImageView {
     private int screenWidth;
     private Stopwatch stopwatch;
     private Timer timer;
+    private Random random = new Random();
 
     /* renamed from: square.com.avoidsquare.Utils.EnemyViews.1 */
     class C02831 implements AnimatorUpdateListener {
@@ -39,22 +43,11 @@ public class EnemyViews extends ImageView {
         }
     }
 
-    /* renamed from: square.com.avoidsquare.Utils.EnemyViews.2 */
-    class C02842 extends TimerTask {
-        C02842() {
-        }
-
-        public void run() {
-            if (EnemyViews.this.moveY < 0 && EnemyViews.this.moveY > -30) {
-                EnemyViews.this.moveY = EnemyViews.this.moveY - 1;
-            } else if (EnemyViews.this.moveY > 0 && EnemyViews.this.moveY < 30) {
-                EnemyViews.this.moveY = EnemyViews.this.moveY + 1;
-            }
-            if (EnemyViews.this.moveX < 0 && EnemyViews.this.moveX > -30) {
-                EnemyViews.this.moveX = EnemyViews.this.moveX - 1;
-            } else if (EnemyViews.this.moveX > 0 && EnemyViews.this.moveX < 30) {
-                EnemyViews.this.moveX = EnemyViews.this.moveX + 1;
-            }
+    private void setMargins() {
+        if (getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
+            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) getLayoutParams();
+            params.setMargins(random.nextInt(100), random.nextInt(100), random.nextInt(100), random.nextInt(100));
+            requestLayout();
         }
     }
 
@@ -94,7 +87,22 @@ public class EnemyViews extends ImageView {
         this.animator.setDuration(1);
         this.animator.addUpdateListener(new C02831());
         this.animator.start();
-        this.timer.schedule(new C02842(), 0, 1700);
+        this.timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+
+                if (EnemyViews.this.moveY < 0 && EnemyViews.this.moveY > -30) {
+                    EnemyViews.this.moveY = EnemyViews.this.moveY - 1;
+                } else if (EnemyViews.this.moveY > 0 && EnemyViews.this.moveY < 30) {
+                    EnemyViews.this.moveY = EnemyViews.this.moveY + 1;
+                }
+                if (EnemyViews.this.moveX < 0 && EnemyViews.this.moveX > -30) {
+                    EnemyViews.this.moveX = EnemyViews.this.moveX - 1;
+                } else if (EnemyViews.this.moveX > 0 && EnemyViews.this.moveX < 30) {
+                    EnemyViews.this.moveX = EnemyViews.this.moveX + 1;
+                }
+            }
+        }, 0, 1700);
     }
 
     @RequiresApi(api = 19)
@@ -105,13 +113,15 @@ public class EnemyViews extends ImageView {
     }
 
     private void initializing(Context context) {
-        Display display = ((WindowManager) context.getSystemService("window")).getDefaultDisplay();
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
         Point point = new Point();
         display.getSize(point);
         this.moveX = 2;
         this.moveY = 2;
         this.screenWidth = point.x;
         this.screenHeight = point.y / 2;
+        setMargins();
     }
 
     private void animationUpdateActionPerformed() {

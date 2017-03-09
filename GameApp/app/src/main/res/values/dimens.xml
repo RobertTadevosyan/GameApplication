@@ -11,7 +11,6 @@
     <dimen name="facebook_button_height">30dp</dimen>
     <dimen name="facebook_icon_size">120dp</dimen>
     <dimen name="glyuk">10dp</dimen>
-    <dimen name="left_and_rigth_border_width">600dp</dimen>
     <dimen name="list_top_margin_in_gameover_activity">15dp</dimen>
     <dimen name="new_game_button_height">40dp</dimen>
     <dimen name="new_game_button_width">300dp</dimen>

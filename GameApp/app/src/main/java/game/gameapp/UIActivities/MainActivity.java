@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.Random;
+
 import game.gameapp.R;
 import game.gameapp.RealmModel.Model;
 import game.gameapp.Request.BaseActivity;
@@ -36,7 +38,6 @@ public class MainActivity extends BaseActivity implements GameInterface {
     private float glyuk;
     private Integer id;
     private ImageView joystick;
-    private float leftAndRightBorderLength;
     private MediaPlayer mediaPlayer;
     private Model model;
     private int screenSizes_x;
@@ -45,7 +46,6 @@ public class MainActivity extends BaseActivity implements GameInterface {
     private TextView timerTextView;
     private float topAndBottomBorderLength;
     private String uName;
-
 
     public MainActivity() {
         this.gameIsPlaying = false;
@@ -93,7 +93,6 @@ public class MainActivity extends BaseActivity implements GameInterface {
         this.mediaPlayer = MediaPlayer.create(this, R.raw.boom);
         configViews();
         this.topAndBottomBorderLength = getResources().getDimension(R.dimen.top_margin_of_game_view);
-        this.leftAndRightBorderLength = getResources().getDimension(R.dimen.left_and_rigth_border_width);
         this.glyuk = getResources().getDimension(R.dimen.glyuk);
         this.anim = (AnimationDrawable) ((LinearLayout) findViewById(R.id.activity_main)).getBackground();
         this.anim.setEnterFadeDuration(10000);
