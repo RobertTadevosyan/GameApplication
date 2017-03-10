@@ -48,7 +48,7 @@
         android:paddingRight="20dp"
         android:text="Clear all history"
         android:textAllCaps="false"
-        android:textColor="@color/game_over_page_background"
+        android:textColor="@android:color/white"
         android:textSize="@dimen/list_item_text_size" />
 
     <View
@@ -70,7 +70,7 @@
         android:maxLines="1"
         android:singleLine="true"
         android:padding="5dp"
-        android:textColor="@color/play_again_background"
+        android:textColor="@android:color/white"
         android:textSize="@dimen/normal_text_size" />
 
     <Button

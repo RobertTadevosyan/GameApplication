@@ -115,7 +115,7 @@ public class GameOverActivity extends AppCompatActivity implements CommonInterfa
             return;
         }
         this.removeAllButton.setEnabled(true);
-        this.removeAllButton.setTextColor(ContextCompat.getColor(this, R.color.game_over_page_background));
+        this.removeAllButton.setTextColor(ContextCompat.getColor(this, android.R.color.white));
     }
 
 //    protected void onResume() {
