@@ -228,4 +228,10 @@ public class GameOverActivity extends AppCompatActivity implements CommonInterfa
             default:
         }
     }
+
+    public void allUsersScorePage(View view) {
+        Intent intent = new Intent(this,AllUsersScoreActivity.class);
+        intent.putExtra(CONSTATNTS.HIGH_SCORE, String.valueOf(list.get(0).getScore()));
+        startActivity(intent);
+    }
 }

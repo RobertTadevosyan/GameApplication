@@ -9,6 +9,15 @@ public class Model extends RealmObject {
     private String name;
     private Double score;
 
+    public Model() {
+    }
+
+    public Model(String id, String name, Double score) {
+        this.id = id;
+        this.name = name;
+        this.score = score;
+    }
+
     public String getId() {
         return this.id;
     }

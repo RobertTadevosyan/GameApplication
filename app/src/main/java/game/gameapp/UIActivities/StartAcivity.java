@@ -83,8 +83,8 @@ public class StartAcivity extends AppCompatActivity {
     }
 
     public void playGameClick(View view) {
-//        goToMainActivity(userNameEditText.getText().toString());
-        startActivity(new Intent(this, EmailPasswordActivity.class));
+        goToMainActivity(userNameEditText.getText().toString());
+//        startActivity(new Intent(this, EmailPasswordActivity.class));
     }
 
     public void showAlert() {
