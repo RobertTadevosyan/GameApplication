@@ -152,7 +152,7 @@ public class MainActivity extends BaseActivity implements GameInterface {
         }
     }
 
-    private void setRandomMarginsToEnemyViews(){
+    private void setRandomMarginsToEnemyViews() {
         this.enemyViewsFirst.setMargins();
         this.enemyViewsFirst.setMargins();
         this.enemyViewsFirst.setMargins();
@@ -186,14 +186,14 @@ public class MainActivity extends BaseActivity implements GameInterface {
         this.enemyViewsSecond.stop();
         this.enemyViewsThird.stop();
         this.enemyViewsFourth.stop();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if (MainActivity.this.mediaPlayer != null) {
-                    MainActivity.this.mediaPlayer.start();
-                }
-            }
-        }).start();
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                if (MainActivity.this.mediaPlayer != null) {
+//                    MainActivity.this.mediaPlayer.start();
+//                }
+//            }
+//        }).start();
 
         new Handler().postDelayed(new Runnable() {
             @Override

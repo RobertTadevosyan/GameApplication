@@ -45,7 +45,7 @@ public class AllUsersScoreActivity extends BaseActivity implements CommonInterfa
         info_text_view = (TextView) findViewById(R.id.info_text_view);
         all_scores_list_view = (ListView) findViewById(R.id.all_scores_list_view);
         allUsers = new ArrayList<>();
-        commonAdapter = new CommonAdapter(this,this,allUsers, AllUsersHolder.class,R.layout.list_item);
+        commonAdapter = new CommonAdapter(getApplicationContext(),this,allUsers, AllUsersHolder.class,R.layout.list_item);
         all_scores_list_view.setAdapter(commonAdapter);
         showProgressDialog();
         String currentUserHighestValue = (String) getIntent().getExtras().get(CONSTATNTS.HIGH_SCORE);
@@ -58,16 +58,21 @@ public class AllUsersScoreActivity extends BaseActivity implements CommonInterfa
         String android_id = Secure.getString(this.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("Users");
-        myRef.getParent().child("user_" + android_id).child("user_name").setValue(userName);
-        myRef.getParent().child("user_" + android_id).child("user_score").setValue(currentUserHighestValue);
+        final DatabaseReference myRef = database.getReference("Users");
+        myRef.child("user_" + android_id).child("user_name").setValue(userName);
+        myRef.child("user_" + android_id).child("user_score").setValue(currentUserHighestValue);
         hideProgressDialog();
-        gettingAllUsers(myRef);
+        info_text_view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gettingAllUsers(myRef);
+            }
+        });
     }
 
     private void gettingAllUsers(DatabaseReference databaseRef) {
-        DatabaseReference cities = databaseRef.child("cities");
-        Query citiesQuery = cities.orderByKey().startAt(input).endAt(input + "\uf8ff");
+        DatabaseReference cities = databaseRef.child("Users");
+        Query citiesQuery = cities.orderByChild("score").equalTo("1");
         citiesQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -75,6 +80,15 @@ public class AllUsersScoreActivity extends BaseActivity implements CommonInterfa
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     cities.add((Model) postSnapshot.getValue());
                 }
+                allUsers.addAll(cities);
+                commonAdapter.notifyDataSetChanged();
+                System.out.println("--------------------------------------------");
+                for (int i = 0; i < cities.size(); i++) {
+
+                    System.out.println(cities.get(i).getName());
+
+                }
+                System.out.println("--------------------------------------------");
             }
 
             @Override
@@ -91,7 +105,7 @@ public class AllUsersScoreActivity extends BaseActivity implements CommonInterfa
 
     @Override
     public Context getAdapterApplicationContext() {
-        return null;
+        return AllUsersScoreActivity.this;
     }
 
     @Override
