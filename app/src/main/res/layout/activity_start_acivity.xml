@@ -23,6 +23,17 @@
         ads:adUnitId="@string/banner_ad_unit_id"/>
 
     <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Register only with email and password"
+        android:background="@android:color/transparent"
+        android:layout_below="@+id/adView"
+        android:textColor="@android:color/black"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        android:onClick="moveToRegisterPage"/>
+
+    <Button
         android:id="@+id/playButton"
         android:layout_width="@dimen/new_game_button_width"
         android:layout_height="wrap_content"

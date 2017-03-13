@@ -84,7 +84,6 @@ public class StartAcivity extends AppCompatActivity {
 
     public void playGameClick(View view) {
         goToMainActivity(userNameEditText.getText().toString());
-//        startActivity(new Intent(this, EmailPasswordActivity.class));
     }
 
     public void showAlert() {
@@ -110,5 +109,9 @@ public class StartAcivity extends AppCompatActivity {
             }
         });
         adb.show();
+    }
+
+    public void moveToRegisterPage(View view) {
+        startActivity(new Intent(this, EmailPasswordActivity.class));
     }
 }
