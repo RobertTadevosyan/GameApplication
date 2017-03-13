@@ -7,4 +7,6 @@
     <color name="list_item_bottom_line_color">#a8adb1</color>
     <color name="game_over_page_background">#18223d</color>
     <color name="play_again_background">#475b65</color>
+    <color name="grey_100">#F5F5F5</color>
+    <color name="grey_300">#E0E0E0</color>
 </resources>

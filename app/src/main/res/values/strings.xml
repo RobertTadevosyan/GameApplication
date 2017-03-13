@@ -1,4 +1,17 @@
 <resources>
     <string name="app_name">Balloon</string>
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="facebook_app_id">263178530806258</string>
+    <string name="fb_login_protocol_scheme">fb263178530806258</string>
+    <string name="emailpassword_title_text">Login to see others Result</string>
+    <string name="signed_out">sign_out</string>
+    <string name="hint_email">E-mail</string>
+    <string name="hint_password">Password</string>
+    <string name="sign_in">Log In</string>
+    <string name="create_account">Register</string>
+    <string name="sign_out">Sign_ount</string>
+    <string name="verify_email">Verify e - mail</string>
+    <string name="auth_failed">Authorization Failed !!!!!</string>
+    <string name="emailpassword_status_fmt">Email User: %1$s (verified: %2$b)</string>
+    <string name="firebase_status_fmt">Firebase User: %s</string>
 </resources>

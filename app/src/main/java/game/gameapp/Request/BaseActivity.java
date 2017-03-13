@@ -27,4 +27,12 @@ public class BaseActivity extends AppCompatActivity implements RequestLoadingMon
         }
         return requestLoadingMontion;
     }
+
+    protected void showProgressDialog(){
+        getRequestLoadingMontion().show();
+    }
+
+    protected void hideProgressDialog(){
+        getRequestLoadingMontion().hide();
+    }
 }
