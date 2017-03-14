@@ -1,24 +1,18 @@
 package game.gameapp.Request;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.google.android.gms.ads.AdView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import game.gameapp.RealmModel.User;
-import game.gameapp.UIActivities.EmailPasswordActivity;
-import game.gameapp.Utils.RealmHelper;
+import io.realm.RealmConfiguration;
 
 public class BaseActivity extends AppCompatActivity implements RequestLoadingMontionInterface {
     public static int navBarHeight;
@@ -33,6 +27,10 @@ public class BaseActivity extends AppCompatActivity implements RequestLoadingMon
 ////            Toast.makeText(this, "Please Log in :)", Toast.LENGTH_SHORT).show();
 //            finish();
 //        }
+        RealmConfiguration config = new RealmConfiguration
+                .Builder(this)
+                .deleteRealmIfMigrationNeeded()
+                .build();
     }
 
     @Override
@@ -69,11 +67,6 @@ public class BaseActivity extends AppCompatActivity implements RequestLoadingMon
             // Name, email address, and profile photo Url
             String name = user.getDisplayName();
             String email = user.getEmail();
-            User user1 = new User();
-            user1.setId("current user");
-            user1.setEmail(email);
-            user1.setPassword(name);
-            RealmHelper.saveOrUpdate(user1);
 //            // The user's ID, unique to the Firebase project. Do NOT use this value to
 //            // authenticate with your backend server, if you have one. Use
 //            // FirebaseUser.getToken() instead.

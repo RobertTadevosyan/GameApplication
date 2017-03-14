@@ -24,6 +24,7 @@ public class AllUsersHolder implements CommonAdapterInterface {
     private Context context;
     private String userName;
     private TextView position_text_view;
+    private String user_id;
 
     public void onClick(View v) {
     }
@@ -37,6 +38,7 @@ public class AllUsersHolder implements CommonAdapterInterface {
         this.context = context;
         this.deleteIcon.setVisibility(View.GONE);
         this.userName = (String) PreferenceUtil.readPreference(context, CONSTATNTS.USER_NAME, "");
+        this.user_id = (String) PreferenceUtil.readPreference(context, CONSTATNTS.USER_UNIQ_ID, "");
     }
 
     public void reloadRowWithData(Object object, int position) {
@@ -57,7 +59,7 @@ public class AllUsersHolder implements CommonAdapterInterface {
         this.uName.setText("Name - " + model.getName());
         this.uScore.setText("Score - " + String.valueOf(model.getScore()));
         this.position_text_view.setText(String.valueOf(position + 1));
-        if (model.getName().equals(userName)) {
+        if (model.getName().equals(userName) && model.getId().equals(user_id)) {
             this.uName.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
             this.uScore.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
             this.position_text_view.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));

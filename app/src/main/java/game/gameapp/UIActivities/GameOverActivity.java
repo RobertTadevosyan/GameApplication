@@ -39,11 +39,10 @@ import game.gameapp.Utils.RealmHelper;
 import io.realm.RealmObject;
 
 
-public class GameOverActivity extends BaseActivity implements CommonInterface, OnClickListener {
+public class GameOverActivity extends BaseActivity implements CommonInterface {
 //    private AnimationDrawable anim;
     private float check;
     private CommonAdapter commonAdapter;
-    private ImageView fb_share_button;
     private List<Model> list;
     private ListView listView;
     private int positionOfDeletingItem;
@@ -66,9 +65,6 @@ public class GameOverActivity extends BaseActivity implements CommonInterface, O
         this.userName = (EditText) findViewById(R.id.gamerName);
         this.userName.setText((String) PreferenceUtil.readPreference(this, CONSTATNTS.USER_NAME, ""));
         findViewById(R.id.new_game_button).setEnabled(false);
-        this.fb_share_button = (ImageView) findViewById(R.id.fb_share_button);
-        this.fb_share_button.setVisibility(View.VISIBLE);
-        this.fb_share_button.setOnClickListener(this);
         showProgressDialog();
         this.removeAllButton = (Button) findViewById(R.id.clear_all_list);
 //        this.anim = (AnimationDrawable) ((RelativeLayout) findViewById(R.id.activity_game_over)).getBackground();
@@ -219,13 +215,6 @@ public class GameOverActivity extends BaseActivity implements CommonInterface, O
         System.gc();
     }
 
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.fb_share_button /*2131558507*/:
-                onFacebookShareClick();
-            default:
-        }
-    }
 
     public void allUsersScorePage(View view) {
         Intent intent = new Intent(this,AllUsersScoreActivity.class);

@@ -51,7 +51,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                         SplashScreenActivity.this.finish();
                     }
                 }
-                Intent intent = new Intent(SplashScreenActivity.this, StartAcivity.class);
+                Intent intent = new Intent(SplashScreenActivity.this, EmailPasswordActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 SplashScreenActivity.this.startActivity(intent);
                 SplashScreenActivity.this.finish();

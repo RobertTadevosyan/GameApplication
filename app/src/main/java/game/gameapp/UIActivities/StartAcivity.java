@@ -58,8 +58,13 @@ public class StartAcivity extends AppCompatActivity {
             this.userNameEditText.setVisibility(View.VISIBLE);
             PreferenceUtil.saveInSharedPreference(this, CONSTATNTS.ID, Integer.valueOf(1));
             return;
+        }else{
+            final String uName = (String) PreferenceUtil.readPreference(this, CONSTATNTS.USER_NAME, "");
+            StartAcivity.this.userNameEditText.setText(uName);
+            StartAcivity.this.userNameEditText.setFocusable(false);
+            StartAcivity.this.userNameEditText.setBackgroundColor(ContextCompat.getColor(StartAcivity.this, android.R.color.transparent));
         }
-        showAlert();
+//        showAlert();
     }
 
     public void gettingScreenSizes() {
@@ -70,20 +75,20 @@ public class StartAcivity extends AppCompatActivity {
         this.point = point;
     }
 
-    private void goToMainActivity(String uName) {
-        if (uName.isEmpty()) {
-            Toast.makeText(this, "Gamer name can not be empty!", Toast.LENGTH_LONG).show();
-            return;
-        }
+    private void saveUserNameAndScreenPoints() {
         PreferenceUtil.saveInSharedPreference(this, CONSTATNTS.USER_NAME, this.userNameEditText.getText().toString());
         PreferenceUtil.saveInSharedPreference(this, CONSTATNTS.POINTS_X, Integer.valueOf(this.point.x));
         PreferenceUtil.saveInSharedPreference(this, CONSTATNTS.POINTS_Y, Integer.valueOf(this.point.y));
-        startActivity(new Intent(this, MainActivity.class));
-        finish();
     }
 
     public void playGameClick(View view) {
-        goToMainActivity(userNameEditText.getText().toString());
+            if (userNameEditText.getText().toString().isEmpty()) {
+                Toast.makeText(this, "Gamer name can not be empty!", Toast.LENGTH_LONG).show();
+                return;
+            }
+            saveUserNameAndScreenPoints();
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
     }
 
     public void showAlert() {
@@ -109,9 +114,5 @@ public class StartAcivity extends AppCompatActivity {
             }
         });
         adb.show();
-    }
-
-    public void moveToRegisterPage(View view) {
-        startActivity(new Intent(this, EmailPasswordActivity.class));
     }
 }

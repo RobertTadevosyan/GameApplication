@@ -105,6 +105,7 @@ public class AllUsersScoreActivity extends BaseActivity implements CommonInterfa
         info_text_view.setText(R.string.all_scores);
         android_id = Secure.getString(this.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
+        PreferenceUtil.saveInSharedPreference(this,CONSTATNTS.USER_UNIQ_ID,android_id);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference myRef = database.getReference("Users");
         myRef.child(CONSTATNTS.USERS_DIRECTORY + android_id).child(CONSTATNTS.U_ID).setValue(android_id);

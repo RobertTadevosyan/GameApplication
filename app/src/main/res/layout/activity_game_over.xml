@@ -97,28 +97,6 @@
         android:textAllCaps="false"
         android:onClick="allUsersScorePage"/>
 
-    <LinearLayout
-        android:id="@+id/share_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="5dp"
-        android:gravity="center"
-        android:visibility="gone">
-
-        <ImageView
-            android:id="@+id/fb_share_button"
-            android:layout_width="@dimen/facebook_button_height"
-            android:layout_height="@dimen/facebook_button_height"
-            android:layout_marginRight="30dp"
-            android:src="@drawable/facebook" />
-
-        <ImageView
-            android:id="@+id/google_plus_share_button"
-            android:layout_width="@dimen/facebook_button_height"
-            android:layout_height="@dimen/facebook_button_height"
-            android:src="@drawable/google_plus" />
-    </LinearLayout>
     <com.google.android.gms.ads.AdView
         android:id="@+id/secondAdView"
         android:layout_width="wrap_content"

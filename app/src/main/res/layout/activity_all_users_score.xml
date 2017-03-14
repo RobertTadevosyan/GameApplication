@@ -18,14 +18,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        android:layout_marginTop="20dp"
+        android:textSize="@dimen/alert_title_text_size"/>
 
     <ListView
         android:id="@+id/all_scores_list_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/info_text_view"
-        android:layout_margin="20dp"
+        android:layout_margin="@dimen/list_margin"
         android:minHeight="50dp"
         android:layout_above="@+id/adViewAllUsersSecond">
 

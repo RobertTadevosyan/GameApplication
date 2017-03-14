@@ -60,7 +60,8 @@
         android:layout_height="@dimen/delete_icon_size"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:textColor="@android:color/white"/>
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/alert_title_text_size"/>
 
     <View
         android:layout_width="match_parent"

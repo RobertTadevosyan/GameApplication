@@ -19,4 +19,6 @@
     <dimen name="top_margin_of_game_view">30dp</dimen>
     <dimen name="list_item_text_size">18sp</dimen>
     <dimen name="normal_text_size">26sp</dimen>
+    <dimen name="list_margin">80dp</dimen>
+    <dimen name="big_text_size">33sp</dimen>
 </resources>

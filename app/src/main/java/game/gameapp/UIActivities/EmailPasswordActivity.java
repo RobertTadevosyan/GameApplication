@@ -1,12 +1,15 @@
 package game.gameapp.UIActivities;
 
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,11 +22,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import game.gameapp.R;
-import game.gameapp.RealmModel.User;
 import game.gameapp.Request.BaseActivity;
 import game.gameapp.Utils.CONSTATNTS;
 import game.gameapp.Utils.PreferenceUtil;
-import game.gameapp.Utils.RealmHelper;
 
 public class EmailPasswordActivity extends BaseActivity implements View.OnClickListener {
 
@@ -44,28 +45,17 @@ public class EmailPasswordActivity extends BaseActivity implements View.OnClickL
     private FirebaseAuth.AuthStateListener mAuthListener;
     // [END declare_auth_listener]
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_email_password);
-        mAdView = (AdView) findViewById(R.id.adViewEmailPassword);
-        secondAdView = (AdView) findViewById(R.id.adViewEmailPasswordSecond);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        AdRequest secondAdRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
-        secondAdView.loadAd(secondAdRequest);
-
-        // Views
-        mStatusTextView = (TextView) findViewById(R.id.status);
-        mDetailTextView = (TextView) findViewById(R.id.detail);
-        mEmailField = (EditText) findViewById(R.id.field_email);
-        mPasswordField = (EditText) findViewById(R.id.field_password);
-
-        // Buttons
-        findViewById(R.id.email_sign_in_button).setOnClickListener(this);
-        findViewById(R.id.email_create_account_button).setOnClickListener(this);
-        findViewById(R.id.sign_out_button).setOnClickListener(this);
-        findViewById(R.id.verify_email_button).setOnClickListener(this);
+        if (((String) PreferenceUtil.readPreference(this, CONSTATNTS.IS_LOGGED_IN_USER, "")) != null && !((String) PreferenceUtil.readPreference(this, CONSTATNTS.IS_LOGGED_IN_USER, "")).isEmpty()) {
+            this.startActivity(new Intent(this, StartAcivity.class));
+            this.finish();
+        }
+        googleAdsConfigurations();
+        otherViewsConfigurations();
 
         // [START initialize_auth]
         mAuth = FirebaseAuth.getInstance();
@@ -77,10 +67,8 @@ public class EmailPasswordActivity extends BaseActivity implements View.OnClickL
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                 } else {
-                    // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
                 // [START_EXCLUDE]
@@ -89,6 +77,51 @@ public class EmailPasswordActivity extends BaseActivity implements View.OnClickL
             }
         };
         // [END auth_state_listener]
+    }
+
+    private void googleAdsConfigurations() {
+        mAdView = (AdView) findViewById(R.id.adViewEmailPassword);
+        secondAdView = (AdView) findViewById(R.id.adViewEmailPasswordSecond);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        AdRequest secondAdRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+        secondAdView.loadAd(secondAdRequest);
+    }
+
+    private void otherViewsConfigurations() {
+        // Views
+        mStatusTextView = (TextView) findViewById(R.id.status);
+        mDetailTextView = (TextView) findViewById(R.id.detail);
+        mEmailField = (EditText) findViewById(R.id.field_email);
+        mPasswordField = (EditText) findViewById(R.id.field_password);
+
+        // Buttons
+        findViewById(R.id.email_sign_in_button).setOnClickListener(this);
+        findViewById(R.id.email_create_account_button).setOnClickListener(this);
+        findViewById(R.id.sign_out_button).setOnClickListener(this);
+        findViewById(R.id.verify_email_button).setOnClickListener(this);
+    }
+
+    private void recheckAndReloadPage() {
+        boolean networkIsAvailable = checkingInternetConnection();
+        if (networkIsAvailable) {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setCancelable(false);
+            dialog.setTitle(getResources().getString(R.string.oops_no_internet_connection));
+            dialog.setNeutralButton("Go To Settings", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    startActivityForResult(new Intent(android.provider.Settings.ACTION_SETTINGS), 0);
+                }
+            });
+            dialog.show();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        recheckAndReloadPage();
     }
 
     // [START on_start_add_listener]
@@ -130,7 +163,7 @@ public class EmailPasswordActivity extends BaseActivity implements View.OnClickL
                         if (!task.isSuccessful()) {
                             Toast.makeText(EmailPasswordActivity.this, R.string.auth_failed,
                                     Toast.LENGTH_SHORT).show();
-                            creatUser((String) PreferenceUtil.readPreference(EmailPasswordActivity.this, CONSTATNTS.USER_NAME,""),email,password,"loged in");
+                            PreferenceUtil.saveInSharedPreference(EmailPasswordActivity.this, CONSTATNTS.IS_LOGGED_IN_USER, "Logged_In");
                         }
 
                         // [START_EXCLUDE]
@@ -163,7 +196,7 @@ public class EmailPasswordActivity extends BaseActivity implements View.OnClickL
                             Log.w(TAG, "signInWithEmail:failed", task.getException());
                             Toast.makeText(EmailPasswordActivity.this, R.string.auth_failed,
                                     Toast.LENGTH_SHORT).show();
-                            creatUser((String) PreferenceUtil.readPreference(EmailPasswordActivity.this, CONSTATNTS.USER_NAME,""),email,password,"loged in");
+                            PreferenceUtil.saveInSharedPreference(EmailPasswordActivity.this, CONSTATNTS.IS_LOGGED_IN_USER, "Logged_In");
                         }
 
                         // [START_EXCLUDE]
@@ -268,15 +301,9 @@ public class EmailPasswordActivity extends BaseActivity implements View.OnClickL
             signOut();
         } else if (i == R.id.verify_email_button) {
             sendEmailVerification();
+            PreferenceUtil.saveInSharedPreference(EmailPasswordActivity.this, CONSTATNTS.IS_LOGGED_IN_USER, "Logged_In");
+            startActivity(new Intent(this, StartAcivity.class));
+            finish();
         }
-    }
-
-    private void creatUser(String name, String email, String password, String id){
-        User user1 = new User();
-        user1.setId(id);
-        user1.setEmail(email);
-        user1.setName(name);
-        user1.setPassword(password);
-        RealmHelper.saveOrUpdate(user1);
     }
 }
