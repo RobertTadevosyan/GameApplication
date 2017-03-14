@@ -54,7 +54,7 @@ public class ModelHolder implements CommonAdapterInterface {
         }else if(position >= 3){
             this.icon.setColorFilter(ContextCompat.getColor(context,android.R.color.darker_gray));
         }
-        this.uName.setText("Name - " + model.getName());
-        this.uScore.setText("Score - " + String.valueOf(model.getScore()));
+        this.uName.setText(context.getResources().getString(R.string.name) + model.getName());
+        this.uScore.setText(context.getResources().getString(R.string.score) + String.valueOf(model.getScore()));
     }
 }

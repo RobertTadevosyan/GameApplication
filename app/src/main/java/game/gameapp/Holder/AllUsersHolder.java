@@ -56,8 +56,8 @@ public class AllUsersHolder implements CommonAdapterInterface {
         } else if (position >= 3) {
             this.icon.setColorFilter(ContextCompat.getColor(context, android.R.color.darker_gray));
         }
-        this.uName.setText("Name - " + model.getName());
-        this.uScore.setText("Score - " + String.valueOf(model.getScore()));
+        this.uName.setText(context.getResources().getString(R.string.name) + model.getName());
+        this.uScore.setText(context.getResources().getString(R.string.score)  + String.valueOf(model.getScore()));
         this.position_text_view.setText(String.valueOf(position + 1));
         if (model.getName().equals(userName) && model.getId().equals(user_id)) {
             this.uName.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));

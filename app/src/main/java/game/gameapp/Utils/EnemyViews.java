@@ -16,7 +16,7 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class EnemyViews extends ImageView {
+public class EnemyViews extends android.support.v7.widget.AppCompatImageView {
     private ValueAnimator animator;
     int enemyHeight;
     int enemyWidth;
@@ -32,7 +32,7 @@ public class EnemyViews extends ImageView {
     private Stopwatch stopwatch;
     private Timer timer;
     private static final int ACCELERATION = 1;
-    private static final int LIMIT_OF_SPEED = 30;
+    private static final int LIMIT_OF_SPEED = 40;
     private static final int STARTS_FROM = 0;
     private static final int MIN_MARGIN = 10;
     private static final int INTERVAL_OF_MARGINS = 150;

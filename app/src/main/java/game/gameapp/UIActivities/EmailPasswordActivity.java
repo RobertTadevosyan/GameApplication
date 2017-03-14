@@ -30,8 +30,7 @@ public class EmailPasswordActivity extends BaseActivity implements View.OnClickL
 
     private static final String TAG = "EmailPassword";
 
-    private TextView mStatusTextView;
-    private TextView mDetailTextView;
+
     private EditText mEmailField;
     private EditText mPasswordField;
     private AdView mAdView;
@@ -90,15 +89,12 @@ public class EmailPasswordActivity extends BaseActivity implements View.OnClickL
 
     private void otherViewsConfigurations() {
         // Views
-        mStatusTextView = (TextView) findViewById(R.id.status);
-        mDetailTextView = (TextView) findViewById(R.id.detail);
         mEmailField = (EditText) findViewById(R.id.field_email);
         mPasswordField = (EditText) findViewById(R.id.field_password);
 
         // Buttons
         findViewById(R.id.email_sign_in_button).setOnClickListener(this);
         findViewById(R.id.email_create_account_button).setOnClickListener(this);
-        findViewById(R.id.sign_out_button).setOnClickListener(this);
         findViewById(R.id.verify_email_button).setOnClickListener(this);
     }
 
@@ -108,7 +104,7 @@ public class EmailPasswordActivity extends BaseActivity implements View.OnClickL
             AlertDialog.Builder dialog = new AlertDialog.Builder(this);
             dialog.setCancelable(false);
             dialog.setTitle(getResources().getString(R.string.oops_no_internet_connection));
-            dialog.setNeutralButton("Go To Settings", new DialogInterface.OnClickListener() {
+            dialog.setNeutralButton(R.string.go_to_settings, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     startActivityForResult(new Intent(android.provider.Settings.ACTION_SETTINGS), 0);
@@ -201,7 +197,6 @@ public class EmailPasswordActivity extends BaseActivity implements View.OnClickL
 
                         // [START_EXCLUDE]
                         if (!task.isSuccessful()) {
-                            mStatusTextView.setText(R.string.auth_failed);
                         }
                         hideProgressDialog();
                         // [END_EXCLUDE]
@@ -232,12 +227,12 @@ public class EmailPasswordActivity extends BaseActivity implements View.OnClickL
 
                         if (task.isSuccessful()) {
                             Toast.makeText(EmailPasswordActivity.this,
-                                    "Verification email sent to " + user.getEmail(),
+                                    getString(R.string.verification_email_sent_to) + user.getEmail(),
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             Log.e(TAG, "sendEmailVerification", task.getException());
                             Toast.makeText(EmailPasswordActivity.this,
-                                    "Failed to send verification email.",
+                                    getString(R.string.failed_to_send_verification_email),
                                     Toast.LENGTH_SHORT).show();
                         }
                         // [END_EXCLUDE]
@@ -251,7 +246,7 @@ public class EmailPasswordActivity extends BaseActivity implements View.OnClickL
 
         String email = mEmailField.getText().toString();
         if (TextUtils.isEmpty(email)) {
-            mEmailField.setError("Required.");
+            mEmailField.setError(getString(R.string.required));
             valid = false;
         } else {
             mEmailField.setError(null);
@@ -259,7 +254,7 @@ public class EmailPasswordActivity extends BaseActivity implements View.OnClickL
 
         String password = mPasswordField.getText().toString();
         if (TextUtils.isEmpty(password)) {
-            mPasswordField.setError("Required.");
+            mPasswordField.setError(getString(R.string.required));
             valid = false;
         } else {
             mPasswordField.setError(null);
@@ -271,19 +266,12 @@ public class EmailPasswordActivity extends BaseActivity implements View.OnClickL
     private void updateUI(FirebaseUser user) {
         hideProgressDialog();
         if (user != null) {
-            mStatusTextView.setText(getString(R.string.emailpassword_status_fmt,
-                    user.getEmail(), user.isEmailVerified()));
-            mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
-
             findViewById(R.id.email_password_buttons).setVisibility(View.GONE);
             findViewById(R.id.email_password_fields).setVisibility(View.GONE);
             findViewById(R.id.signed_in_buttons).setVisibility(View.VISIBLE);
 
             findViewById(R.id.verify_email_button).setEnabled(!user.isEmailVerified());
         } else {
-            mStatusTextView.setText(R.string.signed_out);
-            mDetailTextView.setText(null);
-
             findViewById(R.id.email_password_buttons).setVisibility(View.VISIBLE);
             findViewById(R.id.email_password_fields).setVisibility(View.VISIBLE);
             findViewById(R.id.signed_in_buttons).setVisibility(View.GONE);
@@ -297,8 +285,6 @@ public class EmailPasswordActivity extends BaseActivity implements View.OnClickL
             createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString());
         } else if (i == R.id.email_sign_in_button) {
             signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
-        } else if (i == R.id.sign_out_button) {
-            signOut();
         } else if (i == R.id.verify_email_button) {
             sendEmailVerification();
             PreferenceUtil.saveInSharedPreference(EmailPasswordActivity.this, CONSTATNTS.IS_LOGGED_IN_USER, "Logged_In");

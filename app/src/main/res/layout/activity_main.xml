@@ -110,7 +110,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/gamerJoystick"
             android:layout_centerHorizontal="true"
-            android:text="Move me"
+            android:text="@string/move_me"
             android:textSize="@dimen/alert_text_size" />
     </RelativeLayout>
 </LinearLayout>

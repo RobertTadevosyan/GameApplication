@@ -83,7 +83,7 @@ public class StartAcivity extends AppCompatActivity {
 
     public void playGameClick(View view) {
             if (userNameEditText.getText().toString().isEmpty()) {
-                Toast.makeText(this, "Gamer name can not be empty!", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.gamer_name_can_not_be_empty, Toast.LENGTH_LONG).show();
                 return;
             }
             saveUserNameAndScreenPoints();
@@ -97,7 +97,7 @@ public class StartAcivity extends AppCompatActivity {
         final String uName = (String) PreferenceUtil.readPreference(this, CONSTATNTS.USER_NAME, "");
         adb.setMessage("Are you " + uName + " ?");
         adb.setCancelable(false);
-        adb.setPositiveButton((CharSequence) "Yes", new OnClickListener() {
+        adb.setPositiveButton((CharSequence) getString(R.string.yes), new OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 StartAcivity.this.userNameEditText.setText(uName);
@@ -105,7 +105,7 @@ public class StartAcivity extends AppCompatActivity {
                 StartAcivity.this.userNameEditText.setBackgroundColor(ContextCompat.getColor(StartAcivity.this, android.R.color.transparent));
             }
         });
-        adb.setNegativeButton((CharSequence) "No", new OnClickListener() {
+        adb.setNegativeButton((CharSequence) getString(R.string.no), new OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 StartAcivity.this.userNameEditText.setText("");

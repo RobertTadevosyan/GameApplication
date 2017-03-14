@@ -47,7 +47,7 @@ public class GameOverActivity extends BaseActivity implements CommonInterface {
     private ListView listView;
     private int positionOfDeletingItem;
     private Button removeAllButton;
-//    private EditText userName;
+    //    private EditText userName;
     private AdView mAdView;
     private AdView secondAdView;
 
@@ -62,14 +62,9 @@ public class GameOverActivity extends BaseActivity implements CommonInterface {
         AdRequest secondAdRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
         secondAdView.loadAd(secondAdRequest);
-//        this.userName = (EditText) findViewById(R.id.gamerName);
-//        this.userName.setText((String) PreferenceUtil.readPreference(this, CONSTATNTS.USER_NAME, ""));
         findViewById(R.id.new_game_button).setEnabled(false);
         showProgressDialog();
         this.removeAllButton = (Button) findViewById(R.id.clear_all_list);
-//        this.anim = (AnimationDrawable) ((RelativeLayout) findViewById(R.id.activity_game_over)).getBackground();
-//        this.anim.setEnterFadeDuration(10000);
-//        this.anim.setExitFadeDuration(10000);
         configureViews();
         listViewsConfigurations();
         hideProgressBar();
@@ -113,29 +108,10 @@ public class GameOverActivity extends BaseActivity implements CommonInterface {
         this.removeAllButton.setTextColor(ContextCompat.getColor(this, android.R.color.white));
     }
 
-//    protected void onResume() {
-//        super.onResume();
-//        if (this.anim != null && !this.anim.isRunning()) {
-//            this.anim.start();
-//        }
-//    }
-//
-//    protected void onPause() {
-//        super.onPause();
-//        if (this.anim != null && this.anim.isRunning()) {
-//            this.anim.stop();
-//        }
-//    }
-
     private void configureViews() {
     }
 
     public void newGameButtonOnClick(View view) {
-//        if (this.userName.getText().toString().isEmpty()) {
-//            Toast.makeText(this, "Gamer name can not be empty!", Toast.LENGTH_LONG).show();
-//            return;
-//        }
-//        PreferenceUtil.saveInSharedPreference(this, CONSTATNTS.USER_NAME, this.userName.getText().toString());
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }
@@ -151,18 +127,18 @@ public class GameOverActivity extends BaseActivity implements CommonInterface {
 
     private void deleteItemAlertShow() {
         Builder adb = new Builder(this);
-        adb.setTitle((CharSequence) "Delete Item !");
-        adb.setMessage(((String) PreferenceUtil.readPreference(this, CONSTATNTS.USER_NAME, "")) + "do you want to delete this score ?");
+        adb.setTitle((CharSequence) getString(R.string.delete_item) + " !");
+        adb.setMessage(((String) PreferenceUtil.readPreference(this, CONSTATNTS.USER_NAME, "")) + getString(R.string.do_you_want_to_delete_this_score));
         adb.setIcon((int) R.drawable.user);
         adb.setCancelable(false);
-        adb.setPositiveButton((CharSequence) "Yes", new DialogInterface.OnClickListener() {
+        adb.setPositiveButton((CharSequence) getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 RealmHelper.removeFromDatBase((RealmObject) GameOverActivity.this.list.get(GameOverActivity.this.positionOfDeletingItem));
                 GameOverActivity.this.reloadData();
             }
         });
-        adb.setNegativeButton((CharSequence) "No", new DialogInterface.OnClickListener() {
+        adb.setNegativeButton((CharSequence) getString(R.string.no), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
             }
@@ -173,30 +149,20 @@ public class GameOverActivity extends BaseActivity implements CommonInterface {
     public void onListItemClick(View v) {
     }
 
-    public void onFacebookShareClick() {
-//        try {
-//            Double hScore = ((Model) this.list.get(0)).getScore();
-//            if (ShareDialog.canShow(ShareLinkContent.class)) {
-//                ShareDialog.show((Activity) this, ((ShareLinkContent.Builder) new ShareLinkContent.Builder().setContentTitle("Avoid Squares").setContentDescription("My highest score is :  " + hScore).setContentUrl(Uri.parse(getString(R.string.share_link)))).build());
-//            }
-//        } catch (RuntimeException e) {
-//        }
-    }
-
     public void removeAllHistory(View view) {
         Builder adb = new Builder(this);
-        adb.setTitle((CharSequence) "Clear history !");
-        adb.setMessage(((String) PreferenceUtil.readPreference(this, CONSTATNTS.USER_NAME, "")) + " do you want to clear history ?");
+        adb.setTitle((CharSequence) getString(R.string.clear_all_history) + " !");
+        adb.setMessage(((String) PreferenceUtil.readPreference(this, CONSTATNTS.USER_NAME, "")) + getString(R.string.do_you_want_to_clear_all_history_list));
         adb.setIcon((int) R.drawable.user);
         adb.setCancelable(false);
-        adb.setPositiveButton((CharSequence) "Yes", new DialogInterface.OnClickListener() {
+        adb.setPositiveButton((CharSequence) getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 RealmHelper.removeAllModelsFomRealm();
                 GameOverActivity.this.reloadData();
             }
         });
-        adb.setNegativeButton((CharSequence) "No", new DialogInterface.OnClickListener() {
+        adb.setNegativeButton((CharSequence) getString(R.string.no), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -210,7 +176,6 @@ public class GameOverActivity extends BaseActivity implements CommonInterface {
         this.list = null;
         this.listView = null;
         this.commonAdapter = null;
-//        this.anim = null;
         this.removeAllButton = null;
         System.gc();
     }
@@ -218,7 +183,7 @@ public class GameOverActivity extends BaseActivity implements CommonInterface {
 
     public void allUsersScorePage(View view) {
         String highestScore = "";
-        if (list.get(0).getScore() != null) {
+        if (list.get(0) != null && list.get(0).getScore() != null) {
             highestScore = String.valueOf(list.get(0).getScore());
         } else {
             highestScore = "0.0";

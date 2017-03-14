@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -105,7 +106,7 @@ public class AllUsersScoreActivity extends BaseActivity implements CommonInterfa
         info_text_view.setText(R.string.all_scores);
         android_id = Secure.getString(this.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
-        PreferenceUtil.saveInSharedPreference(this,CONSTATNTS.USER_UNIQ_ID,android_id);
+        PreferenceUtil.saveInSharedPreference(this, CONSTATNTS.USER_UNIQ_ID, android_id);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference myRef = database.getReference("Users");
         myRef.child(CONSTATNTS.USERS_DIRECTORY + android_id).child(CONSTATNTS.U_ID).setValue(android_id);
@@ -121,26 +122,31 @@ public class AllUsersScoreActivity extends BaseActivity implements CommonInterfa
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                Map<String, Model> users = (HashMap<String, Model>) dataSnapshot.child("Users").getValue();
-                Collection<Model> models = users.values();
-                allUsers.clear();
-                Object[] usersInArray = models.toArray();
-                for (int i = 0; i < usersInArray.length; i++) {
-                    Model m = new Model();
-                    m.setId((String) ((HashMap) usersInArray[i]).get(CONSTATNTS.U_ID));
-                    m.setName((String) ((HashMap) usersInArray[i]).get(CONSTATNTS.U_NAME));
-                    m.setScore(Double.valueOf((String) ((HashMap) usersInArray[i]).get(CONSTATNTS.U_SCORE)));
-                    allUsers.add(m);
-                }
-                Collections.sort(allUsers, new Comparator<Model>() {
-                    @Override
-                    public int compare(Model model, Model t1) {
-                        return t1.getScore().compareTo(model.getScore());
+                try {
+                    Map<String, Model> users = (HashMap<String, Model>) dataSnapshot.child("Users").getValue();
+                    Collection<Model> models = users.values();
+                    allUsers.clear();
+                    Object[] usersInArray = models.toArray();
+                    for (int i = 0; i < usersInArray.length; i++) {
+                        Model m = new Model();
+                        m.setId((String) ((HashMap) usersInArray[i]).get(CONSTATNTS.U_ID));
+                        m.setName((String) ((HashMap) usersInArray[i]).get(CONSTATNTS.U_NAME));
+                        m.setScore(Double.valueOf((String) ((HashMap) usersInArray[i]).get(CONSTATNTS.U_SCORE)));
+                        allUsers.add(m);
                     }
-                });
+                    Collections.sort(allUsers, new Comparator<Model>() {
+                        @Override
+                        public int compare(Model model, Model t1) {
+                            return t1.getScore().compareTo(model.getScore());
+                        }
+                    });
 //                RealmHelper.saveOrUpdate(new UsersData((RealmList<Model>) allUsers, android_id));
-                commonAdapter.notifyDataSetChanged();
-                hideProgressDialog();
+                    commonAdapter.notifyDataSetChanged();
+                } catch (RuntimeException e) {
+                    Toast.makeText(AllUsersScoreActivity.this, R.string.something_wemt_wrong, Toast.LENGTH_SHORT).show();
+                } finally {
+                    hideProgressDialog();
+                }
             }
 
             @Override

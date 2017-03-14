@@ -45,7 +45,8 @@ public class MainActivity extends BaseActivity implements GameInterface {
     private TextView timerTextView;
     private float topAndBottomBorderLength;
     private String uName;
-    private InterstitialAd mInterstitialAd;;
+    private InterstitialAd mInterstitialAd;
+    ;
 
     public MainActivity() {
         this.gameIsPlaying = false;
@@ -172,7 +173,10 @@ public class MainActivity extends BaseActivity implements GameInterface {
 
     @RequiresApi(api = 19)
     public void gameOverBecauseOfEnemies(float enemX, float enemyY, int enemyWidth, int enemyHeight) {
-        if (this.gamer.isBelongToGamer(this.glyuk + enemX, this.glyuk + enemyY) || this.gamer.isBelongToGamer(this.glyuk + enemX, (((float) enemyHeight) + enemyY) - this.glyuk) || this.gamer.isBelongToGamer((enemX - this.glyuk) + ((float) enemyWidth), this.glyuk + enemyY) || this.gamer.isBelongToGamer((enemX - this.glyuk) + ((float) enemyWidth), (enemyY - this.glyuk) + ((float) enemyHeight))) {
+        if (this.gamer.isBelongToGamer(this.glyuk + enemX, this.glyuk + enemyY) ||
+            this.gamer.isBelongToGamer(this.glyuk + enemX, (((float) enemyHeight) + enemyY) - this.glyuk) ||
+            this.gamer.isBelongToGamer((enemX - this.glyuk) + ((float) enemyWidth), this.glyuk + enemyY) ||
+            this.gamer.isBelongToGamer((enemX - this.glyuk) + ((float) enemyWidth), (enemyY - this.glyuk) + ((float) enemyHeight))) {
             stop();
         }
     }
@@ -211,14 +215,20 @@ public class MainActivity extends BaseActivity implements GameInterface {
         this.enemyViewsSecond.stop();
         this.enemyViewsThird.stop();
         this.enemyViewsFourth.stop();
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                if (MainActivity.this.mediaPlayer != null) {
-//                    MainActivity.this.mediaPlayer.start();
-//                }
-//            }
-//        }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (MainActivity.this.mediaPlayer != null) {
+                    MainActivity.this.mediaPlayer.start();
+                }
+            }
+        }).start();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                MainActivity.this.saveInRealM();
+            }
+        }, 100);
         if (mInterstitialAd.isLoaded()) {
             mInterstitialAd.show();
         } else {
@@ -226,12 +236,11 @@ public class MainActivity extends BaseActivity implements GameInterface {
         }
     }
 
-    private void saveAndGoGameOverActivity(){
+    private void saveAndGoGameOverActivity() {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 MainActivity.this.startActivity(new Intent(MainActivity.this, GameOverActivity.class));
-                MainActivity.this.saveInRealM();
                 MainActivity.this.finish();
             }
         }, 100);
