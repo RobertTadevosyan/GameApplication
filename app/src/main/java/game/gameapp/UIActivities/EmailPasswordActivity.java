@@ -104,7 +104,7 @@ public class EmailPasswordActivity extends BaseActivity implements View.OnClickL
 
     private void recheckAndReloadPage() {
         boolean networkIsAvailable = checkingInternetConnection();
-        if (networkIsAvailable) {
+        if (!networkIsAvailable) {
             AlertDialog.Builder dialog = new AlertDialog.Builder(this);
             dialog.setCancelable(false);
             dialog.setTitle(getResources().getString(R.string.oops_no_internet_connection));
