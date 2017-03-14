@@ -1,34 +1,21 @@
 package game.gameapp.UIActivities;
 
 import android.content.Context;
-import android.provider.Settings;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.provider.Settings.Secure;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
-import game.gameapp.Common.CommonAdapter;
-import game.gameapp.Common.CommonInterface;
-import game.gameapp.Holder.AllUsersHolder;
-import game.gameapp.R;
-import game.gameapp.RealmModel.Model;
-import game.gameapp.RealmModel.UsersData;
-import game.gameapp.Request.BaseActivity;
-import game.gameapp.Utils.CONSTATNTS;
-import game.gameapp.Utils.PreferenceUtil;
-import game.gameapp.Utils.RealmHelper;
-
-import android.provider.Settings.Secure;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,9 +24,17 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
-import static android.R.id.input;
+import game.gameapp.Common.CommonAdapter;
+import game.gameapp.Common.CommonInterface;
+import game.gameapp.Holder.AllUsersHolder;
+import game.gameapp.R;
+import game.gameapp.RealmModel.Model;
+import game.gameapp.Request.BaseActivity;
+import game.gameapp.Utils.CONSTATNTS;
+import game.gameapp.Utils.PreferenceUtil;
+
+//import game.gameapp.RealmModel.UsersData;
 
 public class AllUsersScoreActivity extends BaseActivity implements CommonInterface {
 
@@ -47,17 +42,61 @@ public class AllUsersScoreActivity extends BaseActivity implements CommonInterfa
     private ListView all_scores_list_view;
     private CommonAdapter commonAdapter;
     private List<Model> allUsers;
-    private String android_id ;
+    private String android_id;
+    private AdView mAdView;
+    private AdView secondAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_users_score);
+        mAdView = (AdView) findViewById(R.id.adViewAllUsers);
+        secondAdView = (AdView) findViewById(R.id.adViewAllUsersSecond);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        AdRequest secondAdRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+        secondAdView.loadAd(secondAdRequest);
+        configureViews();
+    }
+
+    private void configureViews() {
+//        pGif = (GifView) findViewById(R.id.progressBar);
         info_text_view = (TextView) findViewById(R.id.info_text_view);
         all_scores_list_view = (ListView) findViewById(R.id.all_scores_list_view);
         allUsers = new ArrayList<>();
         commonAdapter = new CommonAdapter(getApplicationContext(), this, allUsers, AllUsersHolder.class, R.layout.list_item);
         all_scores_list_view.setAdapter(commonAdapter);
+        findViewById(R.id.no_internet_layout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkInternetConnectionAndReload();
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkInternetConnectionAndReload();
+    }
+
+    private void checkInternetConnectionAndReload() {
+        boolean networkIsAvailable = checkingInternetConnection();
+        if (networkIsAvailable) {
+            findViewById(R.id.no_internet_layout).setVisibility(View.GONE);
+            info_text_view.setVisibility(View.VISIBLE);
+            all_scores_list_view.setVisibility(View.VISIBLE);
+            ifNetworkAvailable();
+        } else {
+            findViewById(R.id.no_internet_layout).setVisibility(View.VISIBLE);
+//            pGif.setImageResource(R.drawable.no_internet);
+            info_text_view.setVisibility(View.GONE);
+            all_scores_list_view.setVisibility(View.GONE);
+            return;
+        }
+    }
+
+    private void ifNetworkAvailable() {
         String currentUserHighestValue = (String) getIntent().getExtras().get(CONSTATNTS.HIGH_SCORE);
         String userName = (String) PreferenceUtil.readPreference(this, CONSTATNTS.USER_NAME, "");
         if (currentUserHighestValue == null || currentUserHighestValue.isEmpty()) {
@@ -72,7 +111,6 @@ public class AllUsersScoreActivity extends BaseActivity implements CommonInterfa
         myRef.child(CONSTATNTS.USERS_DIRECTORY + android_id).child(CONSTATNTS.U_NAME).setValue(userName);
         myRef.child(CONSTATNTS.USERS_DIRECTORY + android_id).child(CONSTATNTS.U_SCORE).setValue(currentUserHighestValue);
         gettingAllUsers(myRef.getRoot());
-
     }
 
     private void gettingAllUsers(DatabaseReference databaseRef) {
@@ -99,7 +137,7 @@ public class AllUsersScoreActivity extends BaseActivity implements CommonInterfa
                         return t1.getScore().compareTo(model.getScore());
                     }
                 });
-                RealmHelper.saveOrUpdate(new UsersData(allUsers, android_id));
+//                RealmHelper.saveOrUpdate(new UsersData((RealmList<Model>) allUsers, android_id));
                 commonAdapter.notifyDataSetChanged();
                 hideProgressDialog();
             }

@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -17,7 +19,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import game.gameapp.R;
+import game.gameapp.RealmModel.User;
 import game.gameapp.Request.BaseActivity;
+import game.gameapp.Utils.CONSTATNTS;
+import game.gameapp.Utils.PreferenceUtil;
+import game.gameapp.Utils.RealmHelper;
 
 public class EmailPasswordActivity extends BaseActivity implements View.OnClickListener {
 
@@ -27,6 +33,8 @@ public class EmailPasswordActivity extends BaseActivity implements View.OnClickL
     private TextView mDetailTextView;
     private EditText mEmailField;
     private EditText mPasswordField;
+    private AdView mAdView;
+    private AdView secondAdView;
 
     // [START declare_auth]
     private FirebaseAuth mAuth;
@@ -40,6 +48,12 @@ public class EmailPasswordActivity extends BaseActivity implements View.OnClickL
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_email_password);
+        mAdView = (AdView) findViewById(R.id.adViewEmailPassword);
+        secondAdView = (AdView) findViewById(R.id.adViewEmailPasswordSecond);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        AdRequest secondAdRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+        secondAdView.loadAd(secondAdRequest);
 
         // Views
         mStatusTextView = (TextView) findViewById(R.id.status);
@@ -95,7 +109,7 @@ public class EmailPasswordActivity extends BaseActivity implements View.OnClickL
     }
     // [END on_stop_remove_listener]
 
-    private void createAccount(String email, String password) {
+    private void createAccount(final String email, final String password) {
         Log.d(TAG, "createAccount:" + email);
         if (!validateForm()) {
             return;
@@ -116,6 +130,7 @@ public class EmailPasswordActivity extends BaseActivity implements View.OnClickL
                         if (!task.isSuccessful()) {
                             Toast.makeText(EmailPasswordActivity.this, R.string.auth_failed,
                                     Toast.LENGTH_SHORT).show();
+                            creatUser((String) PreferenceUtil.readPreference(EmailPasswordActivity.this, CONSTATNTS.USER_NAME,""),email,password,"loged in");
                         }
 
                         // [START_EXCLUDE]
@@ -126,7 +141,7 @@ public class EmailPasswordActivity extends BaseActivity implements View.OnClickL
         // [END create_user_with_email]
     }
 
-    private void signIn(String email, String password) {
+    private void signIn(final String email, final String password) {
         Log.d(TAG, "signIn:" + email);
         if (!validateForm()) {
             return;
@@ -148,6 +163,7 @@ public class EmailPasswordActivity extends BaseActivity implements View.OnClickL
                             Log.w(TAG, "signInWithEmail:failed", task.getException());
                             Toast.makeText(EmailPasswordActivity.this, R.string.auth_failed,
                                     Toast.LENGTH_SHORT).show();
+                            creatUser((String) PreferenceUtil.readPreference(EmailPasswordActivity.this, CONSTATNTS.USER_NAME,""),email,password,"loged in");
                         }
 
                         // [START_EXCLUDE]
@@ -253,5 +269,14 @@ public class EmailPasswordActivity extends BaseActivity implements View.OnClickL
         } else if (i == R.id.verify_email_button) {
             sendEmailVerification();
         }
+    }
+
+    private void creatUser(String name, String email, String password, String id){
+        User user1 = new User();
+        user1.setId(id);
+        user1.setEmail(email);
+        user1.setName(name);
+        user1.setPassword(password);
+        RealmHelper.saveOrUpdate(user1);
     }
 }

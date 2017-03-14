@@ -3,7 +3,7 @@ package game.gameapp.Utils;
 import java.util.List;
 
 import game.gameapp.RealmModel.Model;
-import game.gameapp.RealmModel.UsersData;
+//import game.gameapp.RealmModel.UsersData;
 import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
@@ -36,9 +36,9 @@ public class RealmHelper {
         return Realm.getDefaultInstance().where(Model.class).findAll();
     }
 
-    public static List<UsersData> findAllUsers() {
-        return Realm.getDefaultInstance().where(UsersData.class).findAll();
-    }
+//    public static List<UsersData> findAllUsers() {
+//        return Realm.getDefaultInstance().where(UsersData.class).findAll();
+//    }
 
 
     public static void removeFromDatBase(RealmObject object) {

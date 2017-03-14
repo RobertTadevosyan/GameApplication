@@ -40,8 +40,10 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".UIActivities.EmailPasswordActivity" />
-        <activity android:name=".UIActivities.AllUsersScoreActivity"></activity>
+        <activity android:name=".UIActivities.EmailPasswordActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".UIActivities.AllUsersScoreActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
