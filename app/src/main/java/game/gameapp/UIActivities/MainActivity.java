@@ -1,7 +1,6 @@
 package game.gameapp.UIActivities;
 
 import android.content.Intent;
-import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,10 +9,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.Random;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 
 import game.gameapp.R;
 import game.gameapp.RealmModel.Model;
@@ -45,6 +45,7 @@ public class MainActivity extends BaseActivity implements GameInterface {
     private TextView timerTextView;
     private float topAndBottomBorderLength;
     private String uName;
+    private InterstitialAd mInterstitialAd;;
 
     public MainActivity() {
         this.gameIsPlaying = false;
@@ -88,6 +89,7 @@ public class MainActivity extends BaseActivity implements GameInterface {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView((int) R.layout.activity_main);
+        googleAdBanner();
         this.model = new Model();
         this.mediaPlayer = MediaPlayer.create(this, R.raw.boom);
         configViews();
@@ -96,6 +98,29 @@ public class MainActivity extends BaseActivity implements GameInterface {
         this.uName = (String) PreferenceUtil.readPreference(this, CONSTATNTS.USER_NAME, "");
         this.id = (Integer) PreferenceUtil.readPreference(this, CONSTATNTS.ID, Integer.valueOf(0));
         this.id = Integer.valueOf(this.id.intValue() + 1);
+    }
+
+    private void googleAdBanner() {
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                requestNewInterstitial();
+                saveAndGoGameOverActivity();
+            }
+        });
+
+        requestNewInterstitial();
+    }
+
+    private void requestNewInterstitial() {
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("SEE_YOUR_LOGCAT_TO_GET_YOUR_DEVICE_ID")
+                .build();
+
+        mInterstitialAd.loadAd(adRequest);
     }
 
     protected void onResume() {
@@ -194,7 +219,14 @@ public class MainActivity extends BaseActivity implements GameInterface {
 //                }
 //            }
 //        }).start();
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        } else {
+            saveAndGoGameOverActivity();
+        }
+    }
 
+    private void saveAndGoGameOverActivity(){
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
