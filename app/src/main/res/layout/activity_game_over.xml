@@ -88,20 +88,6 @@
         android:textColor="@android:color/white"
         android:textSize="@dimen/normal_text_size" />
 
-    <RelativeLayout
-        android:id="@+id/progressLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/loadingBackground"
-        android:clickable="true"
-        android:visibility="gone">
-
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true" />
-    </RelativeLayout>
-
     <Button
         android:id="@+id/best_result"
         android:layout_below="@+id/adView"

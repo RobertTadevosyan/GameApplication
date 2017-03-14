@@ -7,4 +7,10 @@ public class CONSTATNTS {
     public static final String UNNAMED = "Unnamed";
     public static final String USER_NAME = "USER_NAME";
     public static final String HIGH_SCORE = "HIGH_SCORE";
+
+    public static final String U_ID = "user_id";
+    public static final String U_NAME = "user_name";
+    public static final String U_SCORE = "user_score";
+
+    public static final String USERS_DIRECTORY = "user_";
 }

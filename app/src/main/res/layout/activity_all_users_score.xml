@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="game.gameapp.UIActivities.AllUsersScoreActivity">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/info_text_view"
@@ -18,8 +15,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/info_text_view"
-        android:layout_margin="20dp">
+        android:layout_margin="20dp"
+        android:minHeight="50dp">
 
     </ListView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/alert_title_text_size"
+            android:text="@string/oops_no_internet_connection"/>
+    </RelativeLayout>
 
 </RelativeLayout>

@@ -29,6 +29,7 @@ public class ModelHolder implements CommonAdapterInterface {
         this.uScore = (TextView) row.findViewById(R.id.userScore);
         this.icon = (ImageView) row.findViewById(R.id.icon_image_view);
         this.deleteIcon = (ImageView) row.findViewById(R.id.deleteItem);
+        row.findViewById(R.id.position_text_view).setVisibility(View.GONE);
         this.context = context;
         this.deleteIcon.setOnClickListener(new OnClickListener() {
             @Override

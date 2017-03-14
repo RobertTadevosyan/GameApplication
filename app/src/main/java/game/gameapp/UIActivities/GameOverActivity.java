@@ -32,13 +32,14 @@ import game.gameapp.Common.CommonInterface;
 import game.gameapp.Holder.ModelHolder;
 import game.gameapp.R;
 import game.gameapp.RealmModel.Model;
+import game.gameapp.Request.BaseActivity;
 import game.gameapp.Utils.CONSTATNTS;
 import game.gameapp.Utils.PreferenceUtil;
 import game.gameapp.Utils.RealmHelper;
 import io.realm.RealmObject;
 
 
-public class GameOverActivity extends AppCompatActivity implements CommonInterface, OnClickListener {
+public class GameOverActivity extends BaseActivity implements CommonInterface, OnClickListener {
 //    private AnimationDrawable anim;
     private float check;
     private CommonAdapter commonAdapter;
@@ -46,7 +47,6 @@ public class GameOverActivity extends AppCompatActivity implements CommonInterfa
     private List<Model> list;
     private ListView listView;
     private int positionOfDeletingItem;
-    private RelativeLayout progressBar;
     private Button removeAllButton;
     private EditText userName;
     private AdView mAdView;
@@ -69,22 +69,21 @@ public class GameOverActivity extends AppCompatActivity implements CommonInterfa
         this.fb_share_button = (ImageView) findViewById(R.id.fb_share_button);
         this.fb_share_button.setVisibility(View.VISIBLE);
         this.fb_share_button.setOnClickListener(this);
-        this.progressBar = (RelativeLayout) findViewById(R.id.progressLayout);
-        progressBar.setVisibility(View.GONE);
-        hideProgressBar();
+        showProgressDialog();
         this.removeAllButton = (Button) findViewById(R.id.clear_all_list);
 //        this.anim = (AnimationDrawable) ((RelativeLayout) findViewById(R.id.activity_game_over)).getBackground();
 //        this.anim.setEnterFadeDuration(10000);
 //        this.anim.setExitFadeDuration(10000);
         configureViews();
         listViewsConfigurations();
+        hideProgressBar();
     }
 
     private void hideProgressBar() {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                GameOverActivity.this.progressBar.setVisibility(View.GONE);
+                hideProgressDialog();
                 GameOverActivity.this.reloadData();
                 GameOverActivity.this.findViewById(R.id.new_game_button).setEnabled(true);
             }
@@ -217,7 +216,6 @@ public class GameOverActivity extends AppCompatActivity implements CommonInterfa
         this.commonAdapter = null;
 //        this.anim = null;
         this.removeAllButton = null;
-        this.progressBar = null;
         System.gc();
     }
 

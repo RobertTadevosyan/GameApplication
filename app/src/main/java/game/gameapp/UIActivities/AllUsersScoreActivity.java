@@ -4,6 +4,7 @@ import android.content.Context;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -21,13 +22,22 @@ import game.gameapp.Common.CommonInterface;
 import game.gameapp.Holder.AllUsersHolder;
 import game.gameapp.R;
 import game.gameapp.RealmModel.Model;
+import game.gameapp.RealmModel.UsersData;
 import game.gameapp.Request.BaseActivity;
 import game.gameapp.Utils.CONSTATNTS;
 import game.gameapp.Utils.PreferenceUtil;
+import game.gameapp.Utils.RealmHelper;
+
 import android.provider.Settings.Secure;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import static android.R.id.input;
 
@@ -37,6 +47,7 @@ public class AllUsersScoreActivity extends BaseActivity implements CommonInterfa
     private ListView all_scores_list_view;
     private CommonAdapter commonAdapter;
     private List<Model> allUsers;
+    private String android_id ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,55 +56,59 @@ public class AllUsersScoreActivity extends BaseActivity implements CommonInterfa
         info_text_view = (TextView) findViewById(R.id.info_text_view);
         all_scores_list_view = (ListView) findViewById(R.id.all_scores_list_view);
         allUsers = new ArrayList<>();
-        commonAdapter = new CommonAdapter(getApplicationContext(),this,allUsers, AllUsersHolder.class,R.layout.list_item);
+        commonAdapter = new CommonAdapter(getApplicationContext(), this, allUsers, AllUsersHolder.class, R.layout.list_item);
         all_scores_list_view.setAdapter(commonAdapter);
-        showProgressDialog();
         String currentUserHighestValue = (String) getIntent().getExtras().get(CONSTATNTS.HIGH_SCORE);
-        String userName = (String) PreferenceUtil.readPreference(this,CONSTATNTS.USER_NAME,"");
-        if(currentUserHighestValue == null || currentUserHighestValue.isEmpty()){
+        String userName = (String) PreferenceUtil.readPreference(this, CONSTATNTS.USER_NAME, "");
+        if (currentUserHighestValue == null || currentUserHighestValue.isEmpty()) {
             return;
         }
-        info_text_view.setText("User Name - " + userName + "\n"
-                                + "Score - " + currentUserHighestValue );
-        String android_id = Secure.getString(this.getContentResolver(),
+        info_text_view.setText(R.string.all_scores);
+        android_id = Secure.getString(this.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference myRef = database.getReference("Users");
-        myRef.child("user_" + android_id).child("user_name").setValue(userName);
-        myRef.child("user_" + android_id).child("user_score").setValue(currentUserHighestValue);
-        hideProgressDialog();
-        info_text_view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                gettingAllUsers(myRef);
-            }
-        });
+        myRef.child(CONSTATNTS.USERS_DIRECTORY + android_id).child(CONSTATNTS.U_ID).setValue(android_id);
+        myRef.child(CONSTATNTS.USERS_DIRECTORY + android_id).child(CONSTATNTS.U_NAME).setValue(userName);
+        myRef.child(CONSTATNTS.USERS_DIRECTORY + android_id).child(CONSTATNTS.U_SCORE).setValue(currentUserHighestValue);
+        gettingAllUsers(myRef.getRoot());
+
     }
 
     private void gettingAllUsers(DatabaseReference databaseRef) {
-        DatabaseReference cities = databaseRef.child("Users");
-        Query citiesQuery = cities.orderByChild("score").equalTo("1");
-        citiesQuery.addValueEventListener(new ValueEventListener() {
+        showProgressDialog();
+        databaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                List<Model> cities = new ArrayList<Model>();
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    cities.add((Model) postSnapshot.getValue());
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                Map<String, Model> users = (HashMap<String, Model>) dataSnapshot.child("Users").getValue();
+                Collection<Model> models = users.values();
+                allUsers.clear();
+                Object[] usersInArray = models.toArray();
+                for (int i = 0; i < usersInArray.length; i++) {
+                    Model m = new Model();
+                    m.setId((String) ((HashMap) usersInArray[i]).get(CONSTATNTS.U_ID));
+                    m.setName((String) ((HashMap) usersInArray[i]).get(CONSTATNTS.U_NAME));
+                    m.setScore(Double.valueOf((String) ((HashMap) usersInArray[i]).get(CONSTATNTS.U_SCORE)));
+                    allUsers.add(m);
                 }
-                allUsers.addAll(cities);
+                Collections.sort(allUsers, new Comparator<Model>() {
+                    @Override
+                    public int compare(Model model, Model t1) {
+                        return t1.getScore().compareTo(model.getScore());
+                    }
+                });
+                RealmHelper.saveOrUpdate(new UsersData(allUsers, android_id));
                 commonAdapter.notifyDataSetChanged();
-                System.out.println("--------------------------------------------");
-                for (int i = 0; i < cities.size(); i++) {
-
-                    System.out.println(cities.get(i).getName());
-
-                }
-                System.out.println("--------------------------------------------");
+                hideProgressDialog();
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println();
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                hideProgressDialog();
+                Log.w("TAG", "Failed to read value.", error.toException());
             }
         });
     }
