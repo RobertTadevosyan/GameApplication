@@ -40,7 +40,7 @@
         android:id="@+id/clear_all_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/gamerName"
+        android:layout_above="@+id/best_result"
         android:layout_centerHorizontal="true"
         android:background="@android:color/transparent"
         android:onClick="removeAllHistory"
@@ -52,26 +52,27 @@
         android:textSize="@dimen/list_item_text_size" />
 
     <View
+        android:id="@+id/devider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/game_over_page_background"
         android:layout_above="@+id/new_game_button"/>
 
-    <EditText
-        android:id="@+id/gamerName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/new_game_button"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:background="@drawable/edit_text_background"
-        android:gravity="center"
-        android:maxLines="1"
-        android:singleLine="true"
-        android:padding="5dp"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/normal_text_size" />
+    <!--<EditText-->
+        <!--android:id="@+id/gamerName"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_above="@+id/new_game_button"-->
+        <!--android:layout_marginBottom="5dp"-->
+        <!--android:layout_marginLeft="40dp"-->
+        <!--android:layout_marginRight="40dp"-->
+        <!--android:background="@drawable/edit_text_background"-->
+        <!--android:gravity="center"-->
+        <!--android:maxLines="1"-->
+        <!--android:singleLine="true"-->
+        <!--android:padding="5dp"-->
+        <!--android:textColor="@android:color/white"-->
+        <!--android:textSize="@dimen/normal_text_size" />-->
 
     <Button
         android:id="@+id/new_game_button"
@@ -90,12 +91,14 @@
 
     <Button
         android:id="@+id/best_result"
-        android:layout_below="@+id/adView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_above="@+id/devider"
+        android:layout_centerHorizontal="true"
+        android:layout_width="@dimen/world_Width"
+        android:layout_height="@dimen/world_height"
         android:text="World Best Result"
         android:textAllCaps="false"
-        android:onClick="allUsersScorePage"/>
+        android:onClick="allUsersScorePage"
+        android:background="@drawable/world_ed"/>
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/secondAdView"

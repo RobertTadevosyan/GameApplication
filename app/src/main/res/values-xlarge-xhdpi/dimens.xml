@@ -21,4 +21,6 @@
     <dimen name="normal_text_size">26sp</dimen>
     <dimen name="list_margin">80dp</dimen>
     <dimen name="big_text_size">33sp</dimen>
+    <dimen name="world_Width">150dp</dimen>
+    <dimen name="world_height">75dp</dimen>
 </resources>

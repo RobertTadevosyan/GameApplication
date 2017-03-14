@@ -40,14 +40,14 @@ import io.realm.RealmObject;
 
 
 public class GameOverActivity extends BaseActivity implements CommonInterface {
-//    private AnimationDrawable anim;
+    //    private AnimationDrawable anim;
     private float check;
     private CommonAdapter commonAdapter;
     private List<Model> list;
     private ListView listView;
     private int positionOfDeletingItem;
     private Button removeAllButton;
-    private EditText userName;
+//    private EditText userName;
     private AdView mAdView;
     private AdView secondAdView;
 
@@ -62,8 +62,8 @@ public class GameOverActivity extends BaseActivity implements CommonInterface {
         AdRequest secondAdRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
         secondAdView.loadAd(secondAdRequest);
-        this.userName = (EditText) findViewById(R.id.gamerName);
-        this.userName.setText((String) PreferenceUtil.readPreference(this, CONSTATNTS.USER_NAME, ""));
+//        this.userName = (EditText) findViewById(R.id.gamerName);
+//        this.userName.setText((String) PreferenceUtil.readPreference(this, CONSTATNTS.USER_NAME, ""));
         findViewById(R.id.new_game_button).setEnabled(false);
         showProgressDialog();
         this.removeAllButton = (Button) findViewById(R.id.clear_all_list);
@@ -131,11 +131,11 @@ public class GameOverActivity extends BaseActivity implements CommonInterface {
     }
 
     public void newGameButtonOnClick(View view) {
-        if (this.userName.getText().toString().isEmpty()) {
-            Toast.makeText(this, "Gamer name can not be empty!", Toast.LENGTH_LONG).show();
-            return;
-        }
-        PreferenceUtil.saveInSharedPreference(this, CONSTATNTS.USER_NAME, this.userName.getText().toString());
+//        if (this.userName.getText().toString().isEmpty()) {
+//            Toast.makeText(this, "Gamer name can not be empty!", Toast.LENGTH_LONG).show();
+//            return;
+//        }
+//        PreferenceUtil.saveInSharedPreference(this, CONSTATNTS.USER_NAME, this.userName.getText().toString());
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }
@@ -217,8 +217,14 @@ public class GameOverActivity extends BaseActivity implements CommonInterface {
 
 
     public void allUsersScorePage(View view) {
-        Intent intent = new Intent(this,AllUsersScoreActivity.class);
-        intent.putExtra(CONSTATNTS.HIGH_SCORE, String.valueOf(list.get(0).getScore()));
+        String highestScore = "";
+        if (list.get(0).getScore() != null) {
+            highestScore = String.valueOf(list.get(0).getScore());
+        } else {
+            highestScore = "0.0";
+        }
+        Intent intent = new Intent(this, AllUsersScoreActivity.class);
+        intent.putExtra(CONSTATNTS.HIGH_SCORE, highestScore);
         startActivity(intent);
     }
 }
